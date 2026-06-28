@@ -1164,7 +1164,7 @@
             { img: "fotos/image2.png", caption: "TU Y YO", type: "local-video", src: "fotos/video2.mp4" },
             { img: "fotos/image3.png", caption: "Nuestra animacion", type: "local-video", src: "fotos/video3.mp4" },
             { img: "fotos/image4.png", caption: "Con tu hermanito", type: "local-video", src: "fotos/video4.mp4" },
-            /*{ img: "fotos/imagen5.png", caption: "Tu graduacion", type: "local-video", src: "fotos/video5.mp4" },*/
+           /* { img: "fotos/imagen5.png", caption: "Tu graduacion", type: "local-video", src: "fotos/video5.mp4" },*/
             /* { img: "video 2.mp4", caption: "Bailando juntos", type: "video", ytId: "CTJiKUISx5k" },*/
             //más fotos
            /* { img: "fotos/foto32.jpg", caption: "Desayuno en cama" },
@@ -1258,7 +1258,7 @@
             { icon: "mdi:weather-sunny", title: "Tu optimismo", desc: "Siempre encuentras el lado bueno de todo." },
             { icon: "mdi:target", title: "Tu determinación", desc: "Cuando te propones algo, nada te detiene." },
             { icon: "mdi:flower-outline", title: "Tu esencia", desc: "Tu aroma y tu forma de ser se me quedan en el alma." },
-            { icon: "mdi:party-popper", title: "Tus sorpresas", desc: "Siempre tienes algo linto para hacerme sonreír." },
+            { icon: "mdi:party-popper", title: "Tus sorpresas", desc: "Siempre tienes algo lindo para hacerme sonreír." },
             { icon: "mdi:hand-pointing-right", title: "Tus manos", desc: "Son mi lugar seguro cuando las tomo." },
             { icon: "mdi:microphone", title: "Cómo cantas", desc: "Aunque sea desafinando, es mi concierto favorito." },
             { icon: "mdi:key-variant", title: "Tu confianza", desc: "Gracias por dejarme entrar en tu mundo." }, // 39 corregido
@@ -1595,7 +1595,25 @@
         function createTimeline() { const container = document.getElementById('timeline-container'); if (container.children.length) return; const line = document.createElement('div'); line.className = 'timeline-line'; container.appendChild(line); timelineEvents.forEach((evt, i) => { const item = document.createElement('div'); item.className = 'relative mb-10 md:mb-12'; item.innerHTML = `<div class="timeline-dot"></div><div class="timeline-card ${evt.side}" style="transition-delay:${i * 0.1}s"><div class="flex items-center gap-3 mb-3"><div class="w-9 h-9 rounded-full flex items-center justify-center" style="background:rgba(244,63,94,0.15)"><iconify-icon icon="${evt.icon}" width="18" class="text-rose-400"></iconify-icon></div><span class="text-rose-400 font-script text-lg">${evt.date}</span></div><p class="text-pink-200/60 font-serif text-sm md:text-base leading-relaxed italic">${evt.desc}</p></div>`; container.appendChild(item); }); }
         function animateTimeline() { document.querySelectorAll('.timeline-card').forEach((c, i) => { c.classList.remove('visible'); setTimeout(() => c.classList.add('visible'), i * 120); }); }
 
-        function createSongs() { const container = document.getElementById('songs-container'); if (container.children.length) return; songs.forEach((s, i) => { const card = document.createElement('div'); card.className = 'song-card cursor-pointer'; card.style.transitionDelay = (i * 0.08) + 's'; card.innerHTML = `<img src="${s.img}" alt="${s.title}" class="song-cover"><div class="min-w-0 flex-1"><h4 class="text-white font-semibold text-sm font-sans truncate">${s.title}</h4><p class="text-pink-300/40 text-xs font-sans mb-1">${s.artist}</p><p class="text-pink-300/55 text-xs font-serif italic">${s.why}</p></div><iconify-icon icon="mdi:play-circle" width="36" class="text-rose-500/50 flex-shrink-0 transition-all duration-300 hover:text-rose-500"></iconify-icon>`; card.addEventListener('click', () => playSong(i)); container.appendChild(card); }); }
+        function createSongs() { 
+            const container = document.getElementById('songs-container'); 
+            if (container.children.length) return; 
+            songs.forEach((s, i) => { 
+                const card = document.createElement('div'); 
+                card.className = 'song-card cursor-pointer'; 
+                card.style.transitionDelay = (i * 0.08) + 's'; 
+                card.innerHTML = `<img src="${s.img}" alt="${s.title}" class="song-cover">
+                                  <div class="min-w-0 flex-1">
+                                      <h4 class="text-white font-semibold text-sm font-sans truncate">${s.title}</h4>
+                                      <p class="text-pink-300/40 text-xs font-sans mb-1">${s.artist}</p>
+                                      <p class="text-pink-300/55 text-xs font-serif italic">${s.why}</p>
+                                  </div>
+                                  <iconify-icon icon="mdi:play-circle" width="36" class="song-play-icon text-rose-500/50 flex-shrink-0 transition-all duration-300 hover:text-rose-500"></iconify-icon>`; 
+                card.addEventListener('click', () => playSong(i)); 
+                container.appendChild(card); 
+            }); 
+        }
+
         function animateSongs() { document.querySelectorAll('.song-card').forEach((c, i) => { c.classList.remove('visible'); setTimeout(() => c.classList.add('visible'), i * 100); }); }
         function createLetter() { const container = document.getElementById('letter-content'); if (container.children.length) return; const seal = document.createElement('div'); seal.className = 'flex justify-center mb-8'; seal.innerHTML = '<div class="wax-seal"><iconify-icon icon="mdi:heart" width="24" class="text-rose-200"></iconify-icon></div>'; const textDiv = document.createElement('div'); textDiv.innerHTML = letterText.split('\n\n').map(p => `<p class="text-stone-600 font-serif text-base md:text-lg leading-relaxed mb-4 italic px-2">${p.trim()}</p>`).join(''); const sig = document.createElement('div'); sig.className = 'text-center mt-8'; sig.innerHTML = '<div class="flex items-center justify-center gap-3 mb-3"><div class="w-10 h-px bg-rose-400/25"></div><iconify-icon icon="mdi:heart" width="14" class="text-rose-400/40"></iconify-icon><div class="w-10 h-px bg-rose-400/25"></div></div><p class="font-script text-2xl text-rose-400">Con todo mi amor</p>'; container.appendChild(seal); container.appendChild(textDiv); container.appendChild(sig); }
 
@@ -1607,27 +1625,95 @@
         }
 
         function playSong(index) {
-            const song = songs[index]; if (!song || !song.ytId) return; currentSongIndex = index;
-            const player = document.getElementById('music-player'); player.classList.remove('hidden-player');
-            document.getElementById('player-img').src = song.img; document.getElementById('player-title').textContent = song.title; document.getElementById('player-artist').textContent = song.artist; document.getElementById('player-progress').style.width = '0%';
-            document.querySelectorAll('.song-card').forEach((c, i) => { if (i === index) { c.style.borderColor = 'rgba(244,63,94,0.5)'; c.style.background = 'rgba(244,63,94,0.12)'; } else { c.style.borderColor = ''; c.style.background = ''; } });
-            const tryPlay = () => { if (ytReady && ytPlayer) { ytPlayer.loadVideoById(song.ytId); isPlaying = true; updatePlayerUI(); } };
-            if (ytReady && ytPlayer) { tryPlay(); } else { const waitYT = setInterval(() => { if (ytReady && ytPlayer) { clearInterval(waitYT); tryPlay(); } }, 300); }
+            const song = songs[index]; 
+            if (!song || !song.ytId) return; 
+            
+            // Si le das clic a la canción que ya está sonando, la pausas o reanudas
+            if (currentSongIndex === index) {
+                if (isPlaying) {
+                    ytPlayer.pauseVideo();
+                    isPlaying = false;
+                } else {
+                    ytPlayer.playVideo();
+                    isPlaying = true;
+                }
+                updatePlayerUI();
+                return;
+            }
+            
+            currentSongIndex = index;
+            const player = document.getElementById('music-player'); 
+            player.classList.remove('hidden-player');
+            document.getElementById('player-img').src = song.img; 
+            document.getElementById('player-title').textContent = song.title; 
+            document.getElementById('player-artist').textContent = song.artist; 
+            document.getElementById('player-progress').style.width = '0%';
+            
+            const tryPlay = () => { 
+                if (ytReady && ytPlayer) { 
+                    ytPlayer.loadVideoById(song.ytId); 
+                    isPlaying = true; 
+                    updatePlayerUI(); 
+                } 
+            };
+            
+            if (ytReady && ytPlayer) { 
+                tryPlay(); 
+            } else { 
+                const waitYT = setInterval(() => { 
+                    if (ytReady && ytPlayer) { 
+                        clearInterval(waitYT); 
+                        tryPlay(); 
+                    } 
+                }, 300); 
+            }
         }
 
         function togglePlay() {
             if (!ytPlayer || !ytReady || currentSongIndex === -1) return;
-            if (isPlaying) { ytPlayer.pauseVideo(); isPlaying = false; } else { ytPlayer.playVideo(); isPlaying = true; }
+            if (isPlaying) { 
+                ytPlayer.pauseVideo(); 
+                isPlaying = false; 
+            } else { 
+                ytPlayer.playVideo(); 
+                isPlaying = true; 
+            }
             updatePlayerUI();
         }
 
         function closePlayer() {
-            if (ytPlayer && ytReady) ytPlayer.stopVideo(); isPlaying = false; currentSongIndex = -1; updatePlayerUI(); clearInterval(progressInterval);
-            document.getElementById('music-player').classList.add('hidden-player'); document.getElementById('player-progress').style.width = '0%';
-            document.querySelectorAll('.song-card').forEach(c => { c.style.borderColor = ''; c.style.background = ''; });
+            if (ytPlayer && ytReady) ytPlayer.stopVideo(); 
+            isPlaying = false; 
+            currentSongIndex = -1; 
+            updatePlayerUI(); 
+            clearInterval(progressInterval);
+            document.getElementById('music-player').classList.add('hidden-player'); 
+            document.getElementById('player-progress').style.width = '0%';
         }
 
-        function updatePlayerUI() { const icon = document.getElementById('player-icon'); if (icon) { icon.setAttribute('icon', isPlaying ? 'mdi:pause' : 'mdi:play'); } }
+        function updatePlayerUI() { 
+            const icon = document.getElementById('player-icon'); 
+            if (icon) { 
+                icon.setAttribute('icon', isPlaying ? 'mdi:pause' : 'mdi:play'); 
+            } 
+            
+            // Actualizar los íconos de las tarjetas de canciones (Play / Pause)
+            const cards = document.querySelectorAll('.song-card');
+            cards.forEach((c, i) => {
+                const cardIcon = c.querySelector('.song-play-icon');
+                if (cardIcon) {
+                    if (i === currentSongIndex) {
+                        cardIcon.setAttribute('icon', isPlaying ? 'mdi:pause-circle' : 'mdi:play-circle');
+                        cardIcon.classList.remove('text-rose-500/50');
+                        cardIcon.classList.add('text-rose-500');
+                    } else {
+                        cardIcon.setAttribute('icon', 'mdi:play-circle');
+                        cardIcon.classList.remove('text-rose-500');
+                        cardIcon.classList.add('text-rose-500/50');
+                    }
+                }
+            });
+        }
 
         function startProgressUpdate() {
             clearInterval(progressInterval); progressInterval = setInterval(() => {
