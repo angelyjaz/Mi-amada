@@ -167,10 +167,7 @@
         }
 
         .pulse-heart {
-            animation: pulseH 1.8s ease-in-out infinite;
-            /* Solución móvil: Anclar al centro */
-            display: flex;
-            justify-content: center;
+            animation: pulseH 1.8s ease-in-out infinite
         }
 
         @keyframes pulseH {
@@ -1511,19 +1508,7 @@
         }
 
         function buildRecuerdosGlobe() {
-            const container = document.getElementById('recuerdos-container'); const W = container.offsetWidth; if (!W) return; 
-            
-            // --- FIX MÓVIL ---
-            let scale = Math.min(W, 720) / 720;
-            // Evitar que las órbitas se salgan de la pantalla en teléfonos pequeños
-            if (W < 720) {
-                const maxAllowedRadius = (W / 2) - 45; // 45px de margen para que la foto quepe
-                const maxOrbitRadius = 455; // La órbita más grande definida abajo
-                if (maxOrbitRadius * scale > maxAllowedRadius) {
-                    scale = maxAllowedRadius / maxOrbitRadius;
-                }
-            }
-            // ----------------
+            const container = document.getElementById('recuerdos-container'); const W = container.offsetWidth; if (!W) return; const scale = Math.min(W, 720) / 720;
 
             // ========================================================
             // 👇 AQUÍ ESTÁN LAS DISTANCIAS DE LAS ÓRBITAS PARA "RECUERDOS"
