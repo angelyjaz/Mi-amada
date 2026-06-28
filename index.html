@@ -167,7 +167,9 @@
         }
 
         .pulse-heart {
-            animation: pulseH 1.8s ease-in-out infinite
+            animation: pulseH 1.8s ease-in-out infinite;
+            display: flex;
+            justify-content: center;
         }
 
         @keyframes pulseH {
@@ -455,7 +457,6 @@
             background: rgba(244, 63, 94, 0.05);
             border: 1px solid rgba(244, 63, 94, 0.1);
             border-radius: 20px;
-            /* Padding reducido para móvil */
             padding: 16px;
             transition: all .4s cubic-bezier(.175, .885, .32, 1.275);
             opacity: 0;
@@ -464,7 +465,6 @@
 
         @media(min-width:640px) {
             .thing-card {
-                /* Padding original restaurado para PC */
                 padding: 24px;
             }
         }
@@ -846,7 +846,6 @@
             </div>
 
             <!-- Video Local de tu carpeta -->
-            <!-- Le quitamos el autoplay para que no congele, el usuario le dará play -->
             <video id="overlay-local-video" controls preload="auto" playsinline
                 style="display:none; max-width:85vw; max-height:70vh; border:3px solid rgba(244,63,94,0.4); box-shadow: 0 0 60px rgba(244,63,94,0.3); object-fit: contain; background: #000;"></video>
             <p id="overlay-caption" class="photo-overlay-caption"></p>
@@ -979,7 +978,7 @@
                 <p class="text-pink-300/60 text-base md:text-lg font-serif italic">En cada rincón del planeta, en cada
                     idioma…</p>
             </div>
-            <div class="relative w-full max-w-[620px] aspect-square mx-auto" id="globe-container">
+            <div class="relative w-full max-w-[620px] aspect-[4/5] sm:aspect-square mx-auto" id="globe-container">
                 <div
                     style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:20;pointer-events:none">
                     <div class="pulse-heart">
@@ -1003,11 +1002,11 @@
                     en mi
                     corazón…</p>
             </div>
-            <div class="relative w-full max-w-[720px] aspect-square mx-auto" id="recuerdos-container">
+            <div class="relative w-full max-w-[720px] aspect-[4/5] sm:aspect-square mx-auto" id="recuerdos-container">
                 <div
                     style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20;pointer-events:none">
                     <img src="https://picsum.photos/seed/our-love-center/300/300.jpg" alt="Nosotros"
-                        class="center-photo w-20 h-20 md:w-28 md:h-28" style="pointer-events:auto"
+                        class="center-photo w-14 h-14 sm:w-20 md:w-28 md:h-28" style="pointer-events:auto"
                         onclick="openPhotoOverlay({img:'https://picsum.photos/seed/our-love-center/300/300.jpg', caption:'Nosotros'})">
                     <p class="font-script text-pink-300/50 text-sm md:text-base mt-2 text-center">Nosotros</p>
                 </div>
@@ -1165,7 +1164,7 @@
             { img: "fotos/image2.png", caption: "TU Y YO", type: "local-video", src: "fotos/video2.mp4" },
             { img: "fotos/image3.png", caption: "Nuestra animacion", type: "local-video", src: "fotos/video3.mp4" },
             { img: "fotos/image4.png", caption: "Con tu hermanito", type: "local-video", src: "fotos/video4.mp4" },
-           /* { img: "fotos/imagen5.png", caption: "Tu graduacion", type: "local-video", src: "fotos/video5.mp4" },*/
+            5/*{ img: "fotos/imagen5.png", caption: "Tu graduacion", type: "local-video", src: "fotos/video5.mp4" },*/
             /* { img: "video 2.mp4", caption: "Bailando juntos", type: "video", ytId: "CTJiKUISx5k" },*/
             //más fotos
            /* { img: "fotos/foto32.jpg", caption: "Desayuno en cama" },
@@ -1259,7 +1258,7 @@
             { icon: "mdi:weather-sunny", title: "Tu optimismo", desc: "Siempre encuentras el lado bueno de todo." },
             { icon: "mdi:target", title: "Tu determinación", desc: "Cuando te propones algo, nada te detiene." },
             { icon: "mdi:flower-outline", title: "Tu esencia", desc: "Tu aroma y tu forma de ser se me quedan en el alma." },
-            { icon: "mdi:party-popper", title: "Tus sorpresas", desc: "Siempre tienes algo lindo para hacerme sonreír." },
+            { icon: "mdi:party-popper", title: "Tus sorpresas", desc: "Siempre tienes algo linto para hacerme sonreír." },
             { icon: "mdi:hand-pointing-right", title: "Tus manos", desc: "Son mi lugar seguro cuando las tomo." },
             { icon: "mdi:microphone", title: "Cómo cantas", desc: "Aunque sea desafinando, es mi concierto favorito." },
             { icon: "mdi:key-variant", title: "Tu confianza", desc: "Gracias por dejarme entrar en tu mundo." }, // 39 corregido
@@ -1402,10 +1401,12 @@
             videoContainer.style.display = 'none';
             overlayIframe.src = '';
 
+            // Matar el video local si estaba reproduciéndose
             if (localVideo) {
-                localVideo.style.display = 'none';
                 localVideo.pause();
-                localVideo.src = '';
+                localVideo.removeAttribute('src');
+                localVideo.load(); // Obliga al navegador a soltar el archivo
+                localVideo.style.display = 'none';
             }
 
             overlayCaption.textContent = item.caption || '';
@@ -1447,8 +1448,10 @@
             overlay.classList.remove('open');
             document.body.style.overflow = '';
 
-            // Limpiar imagen y YouTube
+            // Limpiar imagen
             if (overlayImg) overlayImg.src = '';
+            
+            // Limpiar YouTube
             if (overlayIframe) overlayIframe.src = '';
 
             // Matar el video local por completo (El truco definitivo)
@@ -1456,29 +1459,8 @@
                 localVideo.pause();
                 localVideo.removeAttribute('src'); // Quita el archivo de raíz
                 localVideo.load(); // Obliga al reproductor a vaciar su memoria
+                localVideo.style.display = 'none';
             }
-        }
-
-        function closePhotoOverlay() {
-            const overlay = document.getElementById('photo-overlay');
-            const overlayImg = document.getElementById('overlay-img');
-            const overlayIframe = document.getElementById('overlay-iframe');
-            const localVideo = document.getElementById('overlay-local-video');
-
-            overlay.classList.remove('open');
-            document.body.style.overflow = '';
-
-            overlayImg.src = '';
-            if (overlayIframe) overlayIframe.src = '';
-            if (localVideo) { localVideo.pause(); localVideo.src = ''; }
-        }
-
-        function closePhotoOverlay() {
-            const overlay = document.getElementById('photo-overlay');
-            const overlayIframe = document.getElementById('overlay-iframe');
-            overlay.classList.remove('open');
-            document.body.style.overflow = '';
-            if (overlayIframe) overlayIframe.src = '';
         }
 
         document.addEventListener('keydown', e => { if (e.key === 'Escape') closePhotoOverlay(); });
@@ -1508,7 +1490,20 @@
         }
 
         function buildRecuerdosGlobe() {
-            const container = document.getElementById('recuerdos-container'); const W = container.offsetWidth; if (!W) return; const scale = Math.min(W, 720) / 720;
+            const container = document.getElementById('recuerdos-container'); const W = container.offsetWidth; if (!W) return; 
+            
+            // --- FIX MÓVIL ---
+            let scale = Math.min(W, 720) / 720;
+            // Evitar que las órbitas se salgan de la pantalla en teléfonos pequeños
+            if (W < 720) {
+                // Reducimos el margen para que las fotos tengan un poco más de espacio horizontal
+                const maxAllowedRadius = (W / 2) - 25; 
+                const maxOrbitRadius = 455; 
+                if (maxOrbitRadius * scale > maxAllowedRadius) {
+                    scale = maxAllowedRadius / maxOrbitRadius;
+                }
+            }
+            // ----------------
 
             // ========================================================
             // 👇 AQUÍ ESTÁN LAS DISTANCIAS DE LAS ÓRBITAS PARA "RECUERDOS"
@@ -1538,8 +1533,8 @@
                     const tip = document.createElement('div'); tip.className = 'img-tip'; tip.textContent = item.caption;
                     posDiv.appendChild(imgEl); posDiv.appendChild(tip); container.appendChild(posDiv);
                     const rp = oi / (orbits.length - 1);
-                    //4465456
-                    const imgSize = Math.max(40, Math.round((50 + (1 - rp) * 20) * Math.max(scale, 0.55)));
+                    // Reducimos un poco el tamaño mínimo en móvil para que no se empalmen
+                    const imgSize = Math.max(32, Math.round((50 + (1 - rp) * 20) * Math.max(scale, 0.5)));
                     imgEl.style.width = imgSize + 'px'; imgEl.style.height = imgSize + 'px';
                     imgEl.style.opacity = 0.55 + (1 - rp) * 0.4;
                     imgEl.style.borderColor = 'rgba(244,63,94,' + (0.2 + (1 - rp) * 0.2) + ')';
@@ -1548,7 +1543,20 @@
             });
         }
 
-        function animateAllOrbits(now) { const dt = Math.min((now - lastOrbitTime) / 1000, 0.05); lastOrbitTime = now; for (const w of allOrbitItems) { w.angle += w.speed * dt; w.el.style.transform = 'translate(' + Math.cos(w.angle) * w.radius + 'px,' + Math.sin(w.angle) * w.radius + 'px)'; } requestAnimationFrame(animateAllOrbits); }
+        function animateAllOrbits(now) { 
+            const dt = Math.min((now - lastOrbitTime) / 1000, 0.05); 
+            lastOrbitTime = now; 
+            const isMobile = window.innerWidth < 640;
+            const yScale = isMobile ? 1.35 : 1; // Estira verticalmente en móviles para evitar amontonamiento
+            
+            for (const w of allOrbitItems) { 
+                w.angle += w.speed * dt; 
+                const x = Math.cos(w.angle) * w.radius;
+                const y = Math.sin(w.angle) * w.radius * yScale;
+                w.el.style.transform = `translate(${x}px, ${y}px)`; 
+            } 
+            requestAnimationFrame(animateAllOrbits); 
+        }
 
         let currentPage = 0; function renderAlbumPage() { const content = document.getElementById('book-content'); const page = albumPages[currentPage]; content.style.opacity = '0'; content.style.transform = 'scale(0.97)'; setTimeout(() => { content.innerHTML = `<div class="mb-3 uppercase tracking-[0.2em] text-rose-400/60 font-sans" style="font-size:11px">${page.caption}</div><img src="${page.photo}" alt="${page.caption}" class="album-photo w-full max-w-sm rounded-xl shadow-lg mb-6 border border-rose-200/30 mx-auto" style="aspect-ratio:3/2;object-fit:cover"><p class="text-stone-600 font-serif text-base md:text-lg leading-relaxed italic px-2">"${page.text}"</p><div class="mt-6 flex items-center justify-center gap-2 text-rose-400/30"><div class="w-8 h-px bg-rose-400/25"></div><iconify-icon icon="mdi:heart" width="12"></iconify-icon><div class="w-8 h-px bg-rose-400/25"></div></div>`; content.style.transition = 'all .5s ease-out'; content.style.opacity = '1'; content.style.transform = 'scale(1)'; }, 180); document.getElementById('page-indicator').textContent = (currentPage + 1) + ' / ' + albumPages.length; document.getElementById('prev-btn').style.opacity = currentPage === 0 ? '0.3' : '1'; document.getElementById('next-btn').style.opacity = currentPage === albumPages.length - 1 ? '0.3' : '1'; }
         function nextPage() { if (currentPage < albumPages.length - 1) { currentPage++; renderAlbumPage(); } } function prevPage() { if (currentPage > 0) { currentPage--; renderAlbumPage(); } }
