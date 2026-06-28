@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Ti 💕</title>
+    <link rel="icon" type="image/png" href="foto1.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- API de YouTube para reproducir las canciones -->
+    <script>
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        var ytPlayer = null;
+        var ytReady = false;
+        function onYouTubeIframeAPIReady() {
+            ytPlayer = new YT.Player('yt-player-div', {
+                height: '1',
+                width: '1',
+                videoId: '',
+                playerVars: { autoplay: 0, controls: 0 },
+                events: {
+                    'onReady': function () { ytReady = true; },
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+    </script>
+
+    <script>tailwind.config = { theme: { extend: { fontFamily: { script: ['"Dancing Script"', 'cursive'], serif: ['"Playfair Display"', 'serif'], sans: ['"Inter"', 'sans-serif'] } } } }</script>
+
+    <style>
+        body {
+            background: #0d0a0e
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0d0a0e
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e11d48;
+            border-radius: 3px
+        }
+
+        .tab-btn {
+            padding: 8px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #a1a1aa;
+            transition: all .3s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif
+        }
+
+        .tab-btn:hover {
+            color: #fda4af;
+            background: rgba(244, 63, 94, 0.08)
+        }
+
+        .tab-btn.active {
+            color: #fff;
+            background: linear-gradient(135deg, #e11d48, #f43f5e);
+            border-color: transparent;
+            box-shadow: 0 4px 24px rgba(244, 63, 94, 0.45)
+        }
+
+        @media(min-width:640px) {
+            .tab-btn {
+                padding: 10px 16px;
+                font-size: 13px;
+                gap: 6px
+            }
+        }
+
+        .section {
+            display: none;
+            flex-direction: column;
+            align-items: center
+        }
+
+        .section.active {
+            display: flex;
+            animation: sectionIn .7s ease-out
+        }
+
+        @keyframes sectionIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle var(--dur) ease-in-out infinite;
+            animation-delay: var(--del)
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: .05
+            }
+
+            50% {
+                opacity: .8
+            }
+        }
+
+        .floating-heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatUp linear forwards;
+            opacity: 0
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(0) rotate(0deg);
+                opacity: 0
+            }
+
+            8% {
+                opacity: .7;
+                transform: translateY(-5vh) scale(1) rotate(10deg)
+            }
+
+            85% {
+                opacity: .25
+            }
+
+            100% {
+                transform: translateY(-105vh) scale(.4) rotate(-15deg);
+                opacity: 0
+            }
+        }
+
+        .pulse-heart {
+            animation: pulseH 1.8s ease-in-out infinite
+        }
+
+        @keyframes pulseH {
+
+            0%,
+            100% {
+                transform: scale(1)
+            }
+
+            50% {
+                transform: scale(1.18)
+            }
+        }
+
+        @keyframes heartGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 60px rgba(244, 63, 94, 0.3), 0 0 30px rgba(244, 63, 94, 0.15)
+            }
+
+            50% {
+                box-shadow: 0 0 100px rgba(244, 63, 94, 0.5), 0 0 50px rgba(244, 63, 94, 0.25)
+            }
+        }
+
+        @keyframes ringPulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: .35
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(2.8);
+                opacity: 0
+            }
+        }
+
+        .hero-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            border: 1px solid rgba(244, 63, 94, 0.25);
+            pointer-events: none;
+            animation: ringPulse 3s ease-out infinite
+        }
+
+        .explore-btn {
+            background: linear-gradient(135deg, #e11d48, #f43f5e);
+            color: #fff;
+            padding: 14px 36px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            border: none;
+            cursor: pointer;
+            transition: all .4s cubic-bezier(.175, .885, .32, 1.275);
+            box-shadow: 0 8px 30px rgba(244, 63, 94, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .explore-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 14px 40px rgba(244, 63, 94, 0.55)
+        }
+
+        @keyframes subtitleFade {
+            0% {
+                opacity: 0;
+                letter-spacing: .3em
+            }
+
+            100% {
+                opacity: 1;
+                letter-spacing: .15em
+            }
+        }
+
+        /* ÓRBITAS OPTIMIZADAS */
+        .orbit-pos {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            will-change: transform;
+            z-index: 5;
+        }
+
+        .orbit-pos:hover {
+            z-index: 100 !important;
+        }
+
+        .love-word {
+            white-space: nowrap;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transform: translate(-50%, -50%);
+            transition: color .25s, text-shadow .25s, transform .25s cubic-bezier(.175, .885, .32, 1.275);
+            display: inline-block;
+            user-select: none
+        }
+
+        .love-word:hover {
+            color: #f43f5e !important;
+            text-shadow: 0 0 25px rgba(244, 63, 94, 0.7), 0 0 50px rgba(244, 63, 94, 0.3);
+            transform: translate(-50%, -50%) scale(1.4)
+        }
+
+        .lang-tip,
+        .img-tip {
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(244, 63, 94, 0.9);
+            color: #fff;
+            padding: 3px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s;
+            font-family: 'Inter', sans-serif
+        }
+
+        .love-word:hover+.lang-tip,
+        .orbit-img:hover+.img-tip {
+            opacity: 1
+        }
+
+        .orbit-ring {
+            position: absolute;
+            border: 1px dashed rgba(244, 63, 94, 0.08);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            pointer-events: none
+        }
+
+        .orbit-img {
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(244, 63, 94, 0.4);
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            background: #1a0a10;
+            display: block;
+            transition: transform 0.3s ease-out, border-color 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .orbit-img:hover {
+            transform: translate(-50%, -50%) scale(2.2);
+            border-color: #fff;
+            box-shadow: 0px 0px 20px rgba(244, 63, 94, 0.8), 0px 0px 40px rgba(244, 63, 94, 0.4);
+        }
+
+        .photo-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .4s ease
+        }
+
+        .photo-overlay.open {
+            opacity: 1;
+            pointer-events: auto
+        }
+
+        .photo-overlay-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px)
+        }
+
+        .photo-overlay-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform .4s cubic-bezier(.175, .885, .32, 1.275)
+        }
+
+        .photo-overlay.open .photo-overlay-content {
+            transform: scale(1)
+        }
+
+        .photo-overlay-img {
+            max-width: 85vw;
+            max-height: 70vh;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 3px solid rgba(244, 63, 94, 0.4);
+            box-shadow: 0 0 60px rgba(244, 63, 94, 0.3), 0 0 120px rgba(244, 63, 94, 0.1)
+        }
+
+        .photo-overlay-caption {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: #fda4af;
+            margin-top: 16px;
+            text-shadow: 0 0 20px rgba(244, 63, 94, 0.3)
+        }
+
+        .photo-overlay-close {
+            position: absolute;
+            top: -16px;
+            right: -16px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e11d48, #f43f5e);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 4px 20px rgba(244, 63, 94, 0.5);
+            transition: transform .3s ease
+        }
+
+        .photo-overlay-close:hover {
+            transform: scale(1.15)
+        }
+
+        .center-photo {
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(244, 63, 94, 0.4);
+            box-shadow: 0 0 40px rgba(244, 63, 94, 0.3), 0 0 80px rgba(244, 63, 94, 0.1);
+            cursor: pointer;
+            transition: all .4s cubic-bezier(.175, .885, .32, 1.275)
+        }
+
+        .center-photo:hover {
+            transform: scale(1.12);
+            border-color: #f43f5e;
+            box-shadow: 0 0 50px rgba(244, 63, 94, 0.5), 0 0 100px rgba(244, 63, 94, 0.25)
+        }
+
+        .book-page {
+            background: linear-gradient(145deg, #fefce8 0%, #fff7ed 40%, #fff1f2 100%);
+            border-radius: 6px 20px 20px 6px;
+            position: relative;
+            box-shadow: inset -4px 0 12px rgba(0, 0, 0, 0.08), 8px 8px 24px rgba(0, 0, 0, 0.35)
+        }
+
+        .book-page::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 35px;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.06), transparent);
+            border-radius: 6px 0 0 6px
+        }
+
+        .book-page::after {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 8%;
+            bottom: 8%;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, rgba(225, 29, 72, 0.2), transparent);
+            border-radius: 1px
+        }
+
+        /* ======================================================== */
+        /* DISEÑO DE LAS TARJETAS DE 10 COSAS - MODIFICADO MÓVIL    */
+        /* ======================================================== */
+        .thing-card {
+            background: rgba(244, 63, 94, 0.05);
+            border: 1px solid rgba(244, 63, 94, 0.1);
+            border-radius: 20px;
+            /* Padding reducido para móvil */
+            padding: 16px;
+            transition: all .4s cubic-bezier(.175, .885, .32, 1.275);
+            opacity: 0;
+            transform: translateY(30px)
+        }
+
+        @media(min-width:640px) {
+            .thing-card {
+                /* Padding original restaurado para PC */
+                padding: 24px;
+            }
+        }
+
+        .thing-card.visible {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .thing-card:hover {
+            background: rgba(244, 63, 94, 0.12);
+            border-color: rgba(244, 63, 94, 0.3);
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(244, 63, 94, 0.15)
+        }
+
+        .promise-card {
+            position: relative;
+            border-radius: 24px;
+            padding: 32px 24px;
+            background: rgba(244, 63, 94, 0.04);
+            border: 1px solid rgba(244, 63, 94, 0.08);
+            overflow: hidden;
+            transition: all .5s cubic-bezier(.175, .885, .32, 1.275);
+            opacity: 0;
+            transform: translateY(40px) scale(0.95)
+        }
+
+        .promise-card.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1)
+        }
+
+        .promise-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(244, 63, 94, 0.1), transparent 60%);
+            opacity: 0;
+            transition: opacity .4s
+        }
+
+        .promise-card:hover::before {
+            opacity: 1
+        }
+
+        .promise-card:hover {
+            border-color: rgba(244, 63, 94, 0.25);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(244, 63, 94, 0.12)
+        }
+
+        .promise-num {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            font-family: 'Playfair Display', serif;
+            background: linear-gradient(135deg, #e11d48, #f43f5e);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(244, 63, 94, 0.35);
+            flex-shrink: 0
+        }
+
+        @keyframes promiseFloat {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-6px)
+            }
+        }
+
+        .promise-icon {
+            animation: promiseFloat 3s ease-in-out infinite
+        }
+
+        .promise-card .corner-heart {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            opacity: 0.08;
+            transition: opacity .4s
+        }
+
+        .promise-card:hover .corner-heart {
+            opacity: 0.2
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, rgba(244, 63, 94, 0.4), rgba(244, 63, 94, 0.05))
+        }
+
+        @media(min-width:768px) {
+            .timeline-line {
+                left: 50%;
+                transform: translateX(-50%)
+            }
+        }
+
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #e11d48;
+            border: 3px solid #0d0a0e;
+            box-shadow: 0 0 20px rgba(244, 63, 94, 0.4);
+            position: absolute;
+            left: 13px;
+            top: 24px;
+            z-index: 2
+        }
+
+        @media(min-width:768px) {
+            .timeline-dot {
+                left: 50%;
+                transform: translateX(-50%)
+            }
+        }
+
+        .timeline-card {
+            background: rgba(244, 63, 94, 0.05);
+            border: 1px solid rgba(244, 63, 94, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-left: 48px;
+            transition: all .4s ease;
+            opacity: 0;
+            transform: translateX(-20px)
+        }
+
+        @media(min-width:768px) {
+            .timeline-card {
+                margin-left: 0;
+                margin-right: 0;
+                width: calc(50% - 40px)
+            }
+
+            .timeline-card.left {
+                margin-right: auto
+            }
+
+            .timeline-card.right {
+                margin-left: auto;
+                transform: translateX(20px)
+            }
+        }
+
+        .timeline-card.visible {
+            opacity: 1;
+            transform: translateX(0)
+        }
+
+        .timeline-card:hover {
+            background: rgba(244, 63, 94, 0.1);
+            border-color: rgba(244, 63, 94, 0.25);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(244, 63, 94, 0.1)
+        }
+
+        .song-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: rgba(244, 63, 94, 0.04);
+            border: 1px solid rgba(244, 63, 94, 0.08);
+            border-radius: 16px;
+            padding: 16px;
+            transition: all .4s ease;
+            opacity: 0;
+            transform: translateY(20px)
+        }
+
+        .song-card.visible {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .song-card:hover {
+            background: rgba(244, 63, 94, 0.1);
+            border-color: rgba(244, 63, 94, 0.2);
+            transform: translateX(6px);
+            box-shadow: 0 8px 24px rgba(244, 63, 94, 0.1)
+        }
+
+        .song-cover {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 1px solid rgba(244, 63, 94, 0.15)
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg)
+            }
+
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .song-card:hover .song-cover {
+            animation: spin 3s linear infinite;
+            border-radius: 50%
+        }
+
+        .letter-paper {
+            background: linear-gradient(145deg, #fefce8, #fff7ed, #fff1f2);
+            border-radius: 8px 24px 24px 8px;
+            position: relative;
+            box-shadow: 8px 8px 30px rgba(0, 0, 0, 0.3), inset -3px 0 10px rgba(0, 0, 0, 0.05);
+            max-width: 560px;
+            width: 100%
+        }
+
+        .letter-paper::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 30px;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.05), transparent);
+            border-radius: 8px 0 0 8px
+        }
+
+        .letter-paper::after {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 5%;
+            bottom: 5%;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, rgba(225, 29, 72, 0.15), transparent);
+            border-radius: 1px
+        }
+
+        .wax-seal {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(153, 27, 27, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.2);
+            margin: 0 auto
+        }
+
+        .glow-text {
+            text-shadow: 0 0 40px rgba(244, 63, 94, 0.5), 0 0 80px rgba(244, 63, 94, 0.25)
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp .8s ease-out both
+        }
+
+        #loading {
+            transition: opacity 1s ease-out
+        }
+
+        .album-photo {
+            transition: transform .5s ease, box-shadow .5s ease
+        }
+
+        .album-photo:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15)
+        }
+
+        #music-player {
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #music-player.hidden-player {
+            transform: translateY(100%);
+        }
+
+        /* Clase para el título con degradado brillante */
+        .hero-title {
+            background: linear-gradient(135deg, #ffffff 0%, #fda4af 25%, #ffffff 50%, #f43f5e 75%, #ffffff 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: heroTitleIn 1.2s cubic-bezier(.175, .885, .32, 1.275) both,
+                heroShimmer 6s ease-in-out infinite;
+            filter: drop-shadow(0 0 40px rgba(244, 63, 94, 0.4)) drop-shadow(0 0 80px rgba(244, 63, 94, 0.15));
+            letter-spacing: 0.02em;
+        }
+
+        /* Animación de entrada con rebote */
+        @keyframes heroTitleIn {
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.85);
+                filter: drop-shadow(0 0 0 transparent);
+            }
+
+            60% {
+                opacity: 1;
+                transform: translateY(-5px) scale(1.03);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: drop-shadow(0 0 40px rgba(244, 63, 94, 0.4)) drop-shadow(0 0 80px rgba(244, 63, 94, 0.15));
+            }
+        }
+
+        /* Animación del brillo moviéndose de lado a lado */
+        @keyframes heroShimmer {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+    </style>
+</head>
+
+<body class="text-pink-100 font-sans min-h-screen overflow-x-hidden">
+    <div id="loading" class="fixed inset-0 z-[100] flex items-center justify-center" style="background:#0d0a0e">
+        <div class="text-center">
+            <div class="pulse-heart mb-5"><iconify-icon icon="mdi:heart" width="56"
+                    class="text-rose-500"></iconify-icon></div>
+            <p class="font-script text-4xl text-white">Para Ti...</p>
+        </div>
+    </div>
+    <div id="stars" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- OVERLAY PARA RECUERDOS (Con soporte para video local y YouTube) -->
+    <div id="photo-overlay" class="photo-overlay" onclick="closePhotoOverlay()">
+        <div class="photo-overlay-backdrop"></div>
+        <div class="photo-overlay-content" onclick="event.stopPropagation()">
+            <button class="photo-overlay-close" onclick="closePhotoOverlay()">✕</button>
+
+            <!-- Imagen -->
+            <img id="overlay-img" src="" alt="" class="photo-overlay-img" style="display:none;">
+
+            <!-- Video de YouTube -->
+            <div id="overlay-video-container"
+                style="display:none; width:85vw; max-width:600px; aspect-ratio:16/9; border-radius:20px; overflow:hidden; border:3px solid rgba(244,63,94,0.4); box-shadow: 0 0 60px rgba(244,63,94,0.3);">
+                <iframe id="overlay-iframe" style="width:100%; height:100%; border:none;"
+                    allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+
+            <!-- Video Local de tu carpeta -->
+            <!-- Le quitamos el autoplay para que no congele, el usuario le dará play -->
+            <video id="overlay-local-video" controls preload="auto" playsinline
+                style="display:none; max-width:85vw; max-height:70vh; border:3px solid rgba(244,63,94,0.4); box-shadow: 0 0 60px rgba(244,63,94,0.3); object-fit: contain; background: #000;"></video>
+            <p id="overlay-caption" class="photo-overlay-caption"></p>
+        </div>
+    </div>
+
+    <!-- Reproductor de música flotante -->
+    <div id="music-player" class="fixed bottom-0 left-0 right-0 z-[60] hidden-player"
+        style="background:rgba(13,10,14,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(244,63,94,0.15)">
+        <div class="max-w-3xl mx-auto px-4 py-3 flex items-center gap-4">
+            <img id="player-img" src="" alt=""
+                class="w-12 h-12 rounded-lg object-cover border border-rose-500/20 flex-shrink-0">
+            <div class="min-w-0 flex-1">
+                <p id="player-title" class="text-white text-sm font-semibold font-sans truncate"></p>
+                <p id="player-artist" class="text-pink-300/50 text-xs font-sans truncate"></p>
+            </div>
+            <button id="player-toggle" onclick="togglePlay()"
+                class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300"
+                style="background:linear-gradient(135deg,#e11d48,#f43f5e);box-shadow:0 4px 20px rgba(244,63,94,0.4)">
+                <iconify-icon id="player-icon" icon="mdi:play" width="22" class="text-white"></iconify-icon>
+            </button>
+            <button onclick="closePlayer()"
+                class="w-8 h-8 rounded-full flex items-center justify-center text-pink-300/40 hover:text-white hover:bg-rose-500/20 transition-all duration-300 flex-shrink-0">
+                <iconify-icon icon="mdi:close" width="18"></iconify-icon>
+            </button>
+        </div>
+        <div class="h-1 w-full" style="background:rgba(244,63,94,0.1)">
+            <div id="player-progress" class="h-full transition-all duration-300"
+                style="background:linear-gradient(to right,#e11d48,#f43f5e);width:0%"></div>
+        </div>
+    </div>
+
+    <!-- Contenedor oculto para YouTube -->
+    <div id="yt-container"
+        style="position:fixed;bottom:-100px;left:-100px;pointer-events:none;opacity:0;width:1px;height:1px;overflow:hidden;z-index:-1">
+        <div id="yt-player-div"></div>
+    </div>
+
+    <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 py-2 px-3"
+        style="display:none;background:rgba(13,10,14,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(244,63,94,0.08)">
+        <div class="max-w-5xl mx-auto flex justify-center gap-1 flex-wrap">
+            <button onclick="showSection('inicio')" class="tab-btn active" data-tab="inicio"><iconify-icon
+                    icon="mdi:home-heart" width="16"></iconify-icon><span
+                    class="hidden sm:inline">Inicio</span></button>
+            <button onclick="showSection('mundo')" class="tab-btn" data-tab="mundo"><iconify-icon icon="mdi:earth"
+                    width="16"></iconify-icon><span class="hidden sm:inline">Mundo</span></button>
+            <button onclick="showSection('recuerdos')" class="tab-btn" data-tab="recuerdos"><iconify-icon
+                    icon="mdi:image-multiple" width="16"></iconify-icon><span
+                    class="hidden sm:inline">Recuerdos</span></button>
+            <button onclick="showSection('album')" class="tab-btn" data-tab="album"><iconify-icon icon="mdi:book-heart"
+                    width="16"></iconify-icon><span class="hidden sm:inline">Álbum</span></button>
+            <button onclick="showSection('cosas')" class="tab-btn" data-tab="cosas"><iconify-icon
+                    icon="mdi:heart-outline" width="16"></iconify-icon><span class="hidden sm:inline">109
+                    Cosas</span></button>
+            <button onclick="showSection('promesas')" class="tab-btn" data-tab="promesas"><iconify-icon
+                    icon="mdi:hand-heart" width="16"></iconify-icon><span
+                    class="hidden sm:inline">Promesas</span></button>
+            <button onclick="showSection('historia')" class="tab-btn" data-tab="historia"><iconify-icon
+                    icon="mdi:timeline-clock-outline" width="16"></iconify-icon><span
+                    class="hidden sm:inline">Historia</span></button>
+            <button onclick="showSection('canciones')" class="tab-btn" data-tab="canciones"><iconify-icon
+                    icon="mdi:music-note" width="16"></iconify-icon><span
+                    class="hidden sm:inline">Canciones</span></button>
+            <button onclick="showSection('carta')" class="tab-btn" data-tab="carta"><iconify-icon
+                    icon="mdi:email-heart-outline" width="16"></iconify-icon><span
+                    class="hidden sm:inline">Carta</span></button>
+            <button onclick="showSection('final')" class="tab-btn" data-tab="final"><iconify-icon
+                    icon="mdi:star-four-points" width="16"></iconify-icon><span
+                    class="hidden sm:inline">Final</span></button>
+        </div>
+    </nav>
+
+    <main class="relative z-10">
+        <!-- INICIO -->
+        <section id="inicio" class="section active min-h-screen justify-center px-4 py-24">
+            <div class="max-w-2xl mx-auto text-center relative">
+                <div class="hero-ring" style="width:180px;height:180px;animation-delay:0s;top:50%;left:50%"></div>
+                <div class="hero-ring" style="width:180px;height:180px;animation-delay:1s;top:50%;left:50%"></div>
+                <div class="hero-ring" style="width:180px;height:180px;animation-delay:2s;top:50%;left:50%"></div>
+                <div class="relative inline-block mb-8 fade-in-up">
+                    <div class="pulse-heart">
+                        <div class="w-24 h-24 md:w-32 md:h-32 rounded-full flex items-center justify-center"
+                            style="background:radial-gradient(circle,rgba(244,63,94,0.25),rgba(244,63,94,0.03));animation:heartGlow 3s ease-in-out infinite">
+                            <iconify-icon icon="mdi:heart" width="44" class="text-rose-500 md:hidden"></iconify-icon>
+                            <iconify-icon icon="mdi:heart" width="56"
+                                class="text-rose-500 hidden md:block"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+
+                <h1 class="hero-title font-script text-7xl md:text-9xl text-white mb-5 fade-in-up"
+                    style="animation-delay:.2s">
+                    <iconify-icon icon="mdi:heart-rose" class="text-rose-500 text-5xl md:text-7xl"></iconify-icon>
+                    <span>Para Ti</span>
+                </h1>
+                <div class="flex items-center justify-center gap-3 mb-6 fade-in-up" style="animation-delay:.4s">
+                    <div class="w-12 h-px" style="background:linear-gradient(to right,transparent,#e11d48)"></div>
+                    <iconify-icon icon="mdi:heart" width="14" class="text-rose-500/50"></iconify-icon>
+                    <div class="w-12 h-px" style="background:linear-gradient(to left,transparent,#e11d48)"></div>
+                </div>
+                <p class="text-pink-300/60 text-lg md:text-xl font-serif italic mb-3 fade-in-up"
+                    style="animation-delay:.5s">Un rincón hecho con amor, solo para ti</p>
+                <p class="text-pink-300/35 text-sm md:text-base tracking-[.15em] uppercase font-sans mb-10 fade-in-up"
+                    style="animation:subtitleFade 1.5s ease-out .7s both">Cada palabra · Cada recuerdo · Cada latido</p>
+                <div class="flex justify-center items-center gap-3 mt-12 fade-in-up" style="animation-delay:.9s">
+                    <iconify-icon icon="mdi:heart" width="18" class="text-rose-500/30 pulse-heart"></iconify-icon>
+                    <iconify-icon icon="mdi:heart" width="24" class="text-rose-500/50 pulse-heart"
+                        style="animation-delay:.3s"></iconify-icon>
+                    <iconify-icon icon="mdi:heart" width="34" class="text-rose-500 pulse-heart"
+                        style="animation-delay:.6s"></iconify-icon>
+                    <iconify-icon icon="mdi:heart" width="24" class="text-rose-500/50 pulse-heart"
+                        style="animation-delay:.9s"></iconify-icon>
+                    <iconify-icon icon="mdi:heart" width="18" class="text-rose-500/30 pulse-heart"
+                        style="animation-delay:1.2s"></iconify-icon>
+                </div>
+                <div class="fade-in-up mt-10" style="animation-delay:1.1s">
+                    <button class="explore-btn" onclick="showSection('mundo')">
+                        <iconify-icon icon="mdi:arrow-right-heart" width="20"></iconify-icon> Descubre nuestro mundo
+                    </button>
+                </div>
+                <p class="text-pink-300/20 text-xs mt-16 font-sans fade-in-up" style="animation-delay:1.4s">Hecho con
+                    todo mi amor 💕</p>
+            </div>
+        </section>
+
+        <!-- MUNDO -->
+        <section id="mundo" class="section min-h-screen justify-center px-4 py-24">
+            <div class="text-center mb-6 fade-in-up">
+                <h1 class="font-script text-5xl md:text-7xl text-white mb-2">Un Mundo de Amor</h1>
+                <p class="text-pink-300/60 text-base md:text-lg font-serif italic">En cada rincón del planeta, en cada
+                    idioma…</p>
+            </div>
+            <div class="relative w-full max-w-[620px] aspect-square mx-auto" id="globe-container">
+                <div
+                    style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:20;pointer-events:none">
+                    <div class="pulse-heart">
+                        <div class="w-24 h-24 md:w-32 md:h-32 rounded-full flex items-center justify-center"
+                            style="background:radial-gradient(circle,rgba(244,63,94,0.25),rgba(244,63,94,0.03));animation:heartGlow 3s ease-in-out infinite">
+                            <iconify-icon icon="mdi:heart" width="44" class="text-rose-500 md:hidden"></iconify-icon>
+                            <iconify-icon icon="mdi:heart" width="56"
+                                class="text-rose-500 hidden md:block"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center text-pink-300/40 text-xs mt-6">Pasa el mouse sobre las palabras ✨</p>
+        </section>
+
+        <!-- RECUERDOS -->
+        <section id="recuerdos" class="section min-h-screen justify-center px-4 py-24">
+            <div class="text-center mb-19 md:mb-28 fade-in-up">
+                <h1 class="font-script text-5xl md:text-7xl text-white mb-2">Nuestros Recuerdos</h1>
+                <p class="text-pink-300/60 text-base md:text-lg font-serif italic">Cada imagen es un momento que guardo
+                    en mi
+                    corazón…</p>
+            </div>
+            <div class="relative w-full max-w-[720px] aspect-square mx-auto" id="recuerdos-container">
+                <div
+                    style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20;pointer-events:none">
+                    <img src="https://picsum.photos/seed/our-love-center/300/300.jpg" alt="Nosotros"
+                        class="center-photo w-20 h-20 md:w-28 md:h-28" style="pointer-events:auto"
+                        onclick="openPhotoOverlay({img:'https://picsum.photos/seed/our-love-center/300/300.jpg', caption:'Nosotros'})">
+                    <p class="font-script text-pink-300/50 text-sm md:text-base mt-2 text-center">Nosotros</p>
+                </div>
+            </div>
+            <p class="text-center text-pink-300/40 text-xs mt-36">Haz clic en las fotos para verlas mejor 📸</p>
+        </section>
+
+        <!-- ÁLBUM -->
+        <section id="album" class="section min-h-screen justify-center px-4 py-24">
+            <div class="text-center mb-8 fade-in-up">
+                <h2 class="font-script text-4xl md:text-6xl text-white mb-2">Nuestro Álbum</h2>
+                <p class="text-pink-300/60 font-serif italic">Cada página guarda un recuerdo especial</p>
+            </div>
+            <div class="relative w-full max-w-lg mx-auto">
+                <div class="book-page p-7 md:p-10 min-h-[460px] md:min-h-[520px] flex flex-col items-center justify-center text-center"
+                    id="book-content"></div>
+                <div class="flex justify-center items-center gap-5 mt-7">
+                    <button onclick="prevPage()" id="prev-btn"
+                        class="w-11 h-11 rounded-full border border-rose-500/25 flex items-center justify-center text-rose-400 hover:bg-rose-500 hover:text-white hover:border-rose-500 transition-all duration-300"><iconify-icon
+                            icon="mdi:chevron-left" width="22"></iconify-icon></button>
+                    <span class="text-pink-300/40 text-sm font-sans tracking-wider" id="page-indicator">1 / 5</span>
+                    <button onclick="nextPage()" id="next-btn"
+                        class="w-11 h-11 rounded-full border border-rose-500/25 flex items-center justify-center text-rose-400 hover:bg-rose-500 hover:text-white hover:border-rose-500 transition-all duration-300"><iconify-icon
+                            icon="mdi:chevron-right" width="22"></iconify-icon></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10 COSAS -->
+        <section id="cosas" class="section min-h-screen px-4 py-24">
+            <div class="text-center mb-10 fade-in-up">
+                <h2 class="font-script text-4xl md:text-6xl text-white mb-2">109 Cosas que Amo de Ti</h2>
+                <p class="text-pink-300/60 font-serif italic">Solo algunas de las infinitas razones…</p>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5 max-w-5xl mx-auto w-full"
+                id="things-grid">
+            </div>
+        </section>
+
+        <!-- PROMESAS -->
+        <section id="promesas" class="section min-h-screen px-4 py-24">
+            <div class="text-center mb-10 fade-in-up">
+                <h2 class="font-script text-4xl md:text-6xl text-white mb-2">Mis Promesas para Ti</h2>
+                <p class="text-pink-300/60 font-serif italic">Promesas que guardo en lo más profundo de mi corazón</p>
+            </div>
+           
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto w-full"
+                id="promises-grid"></div>
+        </section>
+
+        <!-- HISTORIA -->
+        <section id="historia" class="section min-h-screen px-4 py-24">
+            <div class="text-center mb-12 fade-in-up">
+                <h2 class="font-script text-4xl md:text-6xl text-white mb-2">Nuestra Historia</h2>
+                <p class="text-pink-300/60 font-serif italic">Cada momento contigo es un hito inolvidable</p>
+            </div>
+            <div class="relative max-w-3xl mx-auto w-full" id="timeline-container"></div>
+        </section>
+
+        <!-- CANCIONES -->
+        <section id="canciones" class="section min-h-screen px-4 py-24">
+            <div class="text-center mb-10 fade-in-up">
+                <h2 class="font-script text-4xl md:text-6xl text-white mb-2">Nuestra Banda Sonora</h2>
+                <p class="text-pink-300/60 font-serif italic">Cada canción me recuerda a ti…</p>
+            </div>
+            <div class="max-w-xl mx-auto w-full space-y-4" id="songs-container"></div>
+        </section>
+
+        <!-- CARTA -->
+        <section id="carta" class="section min-h-screen justify-center px-4 py-24">
+            <div class="text-center mb-8 fade-in-up">
+                <h2 class="font-script text-4xl md:text-6xl text-white mb-2">Mi Carta para Ti</h2>
+                <p class="text-pink-300/60 font-serif italic">Palabras escritas desde el alma</p>
+            </div>
+            <div class="letter-paper p-8 md:p-12 fade-in-up" style="animation-delay:.3s" id="letter-content"></div>
+        </section>
+
+        <!-- FINAL -->
+        <section id="final" class="section min-h-screen justify-center px-4 py-24">
+            <div class="max-w-2xl mx-auto text-center">
+                <div class="relative mb-10 fade-in-up">
+                    <div class="absolute -inset-6 bg-rose-500/15 rounded-[2rem] blur-3xl"></div>
+                    <img src="fotos/foto9.jpg" alt="Nosotros"
+                        class="relative rounded-3xl w-full max-w-md mx-auto shadow-2xl border border-rose-500/20 album-photo">
+                </div>
+                <div class="fade-in-up" style="animation-delay:.3s">
+                    <h2 class="font-script text-6xl md:text-8xl text-white glow-text mb-5">Te Amo</h2>
+                    <div class="w-28 h-1 mx-auto rounded-full mb-8"
+                        style="background:linear-gradient(to right,#e11d48,#fbbf24,#e11d48)"></div>
+                    <p class="text-pink-200/80 text-xl md:text-2xl font-serif leading-relaxed mb-4">Gracias por ser
+                        parte de mi vida</p>
+                    <p class="text-pink-300/50 text-base md:text-lg font-serif italic max-w-md mx-auto">Cada momento
+                        contigo es un regalo que guardaré siempre en mi corazón 💕</p>
+                </div>
+                <div class="flex justify-center items-center gap-3 mt-12 fade-in-up" style="animation-delay:.6s">
+                    <iconify-icon icon="mdi:heart" width="18" class="text-rose-500/30 pulse-heart"></iconify-icon>
+                    <iconify-icon icon="mdi:heart" width="24" class="text-rose-500/50 pulse-heart"
+                        style="animation-delay:.3s"></iconify-icon>
+                    <iconify-icon icon="mdi:heart" width="34" class="text-rose-500 pulse-heart"
+                        style="animation-delay:.6s"></iconify-icon>
+                    <iconify-icon icon="mdi:heart" width="24" class="text-rose-500/50 pulse-heart"
+                        style="animation-delay:.9s"></iconify-icon>
+                    <iconify-icon icon="mdi:heart" width="18" class="text-rose-500/30 pulse-heart"
+                        style="animation-delay:1.2s"></iconify-icon>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const loveWords = [{ word: "Te amo", lang: "Español" }, { word: "I love you", lang: "Inglés" }, { word: "Je t'aime", lang: "Francés" }, { word: "Ti amo", lang: "Italiano" }, { word: "Ich liebe dich", lang: "Alemán" }, { word: "愛してる", lang: "Japonés" }, { word: "사랑해", lang: "Coreano" }, { word: "Я люблю тебя", lang: "Ruso" }, { word: "أحبك", lang: "Árabe" }, { word: "Eu te amo", lang: "Portugués" }, { word: "Σ'αγαπώ", lang: "Griego" }, { word: "我爱你", lang: "Chino" }, { word: "Te iubesc", lang: "Rumano" }, { word: "Kocham cię", lang: "Polaco" }, { word: "Szeretlek", lang: "Húngaro" }, { word: "Jag älskar dig", lang: "Sueco" }, { word: "Ik hou van je", lang: "Holandés" }, { word: "Mahal kita", lang: "Filipino" }, { word: "Aloha wau iā ʻoe", lang: "Hawaiano" }, { word: "Seni seviyorum", lang: "Turco" }, { word: "Volim te", lang: "Croata" }, { word: "Minä rakastan sinua", lang: "Finlandés" }, { word: "Jeg elsker dig", lang: "Danés" }, { word: "Eg elskar deg", lang: "Noruego" }, { word: "Miluji tě", lang: "Checo" }, { word: "Ninapenda wewe", lang: "Swahili" }, { word: "Main tumse pyar karta hoon", lang: "Hindi" }, { word: "Tora dost daram", lang: "Persa" }, { word: "Ana ohev otach", lang: "Hebreo" }, { word: "Mo chuisle", lang: "Irlandés" }, { word: "ฉันรักคุณ", lang: "Tailandés" }, { word: "Anh yêu em", lang: "Vietnamita" }, { word: "Aku cinta kamu", lang: "Indonesio" }, { word: "Я кохаю тебя", lang: "Ucraniano" }, { word: "T'estimo", lang: "Catalán" }, { word: "Quérote", lang: "Gallego" }, { word: "Maite zaitut", lang: "Euskera" }, { word: "Ég elska þig", lang: "Islandés" }, { word: "Ma armastan sind", lang: "Estonio" }, { word: "Es tevi mīlu", lang: "Letón" }, { word: "Aš tave myliu", lang: "Lituano" }, { word: "Ľúbim ťa", lang: "Eslovaco" }, { word: "Ljubim te", lang: "Esloveno" }, { word: "Обичам те", lang: "Búlgaro" }, { word: "Волим те", lang: "Serbio" }, { word: "Те сакам", lang: "Macedonio" }, { word: "Të dua", lang: "Albanés" }, { word: "მიყვარხარ", lang: "Georgiano" }, { word: "Ես սիրում եմ քեզ", lang: "Armenio" }, { word: "میں تم سے پیار کرتا ہوں", lang: "Urdu" }, { word: "আমি তোমাকে ভালোবাসি", lang: "Bengalí" }, { word: "நான் உன்னை காதலிக்கிறேன்", lang: "Tamil" }, { word: "నేను నిన్ను ప్రేమిస్తున్నాను", lang: "Telugu" }, { word: "Saya sayang awak", lang: "Malayo" }, { word: "म तिमीलाई माया गर्छु", lang: "Nepalí" }, { word: "මම ඔයාට ආදරෙයි", lang: "Cingalés" }, { word: "Aku tresno kowe", lang: "Javanés" }, { word: "Ngiyakuthanda", lang: "Zulú" }, { word: "Mo nifẹ rẹ", lang: "Yoruba" }, { word: "እፈልጋለሁ", lang: "Amárico" }, { word: "Waan ku jeclahay", lang: "Somalí" }, { word: "Tiako ianao", lang: "Malgache" }, { word: "ខ្ញុំស្រលាញ់អ្នក", lang: "Jemer" }, { word: "ຂ້ອຍຮັກເຈົ້າ", lang: "Lao" }, { word: "ငါမင်းကိုချစ်တယ်", lang: "Birmano" }, { word: "Би чамд хайртай", lang: "Mongol" }, { word: "Мен сені жақсы көремін", lang: "Kazajo" }, { word: "Men seni sevaman", lang: "Uzbeko" }, { word: "Mən səni sevirəm", lang: "Azerí" }, { word: "Tha gaol agam ort", lang: "Gaélico Escocés" }, { word: "mi sumɔ bó", lang: "Ga" }, { word: "Nadxiee' lii", lang: "Zapoteco" }, { word: "איך האב דיך ליב", lang: "Yidis" }, { word: "Ndiyakuthanda", lang: "Xhosa" }, { word: "Dama la bëgg", lang: "Wólof" }, { word: "Hinigugma ko ikaw", lang: "Waray" }, { word: "Te vojo ben", lang: "Veneciano" }, { word: "Ndi a ni funa", lang: "Venda" }, { word: "مەن سىزنى ياخشى كۆرىمەن", lang: "Uigur" }, { word: "Мон тонэ яратӥсько", lang: "Udmurt" }, { word: "мен сеңээ ынак мен", lang: "Tuviniano" }, { word: "Men seni söýýärin", lang: "Turcomano" }, { word: "nkhukutemwa", lang: "Tumbuka" }, { word: "ಯಾನ್ ಈರೆನ್ ಮೋಕೆ ಮಲ್ಪುವೆ", lang: "Tulu" }, { word: "Ndza ku rhandza", lang: "Tsonga" }, { word: "ai tong ngonuk", lang: "Trukés" }, { word: "ʻOkú ou ʻofa ʻia koe", lang: "Tongano" }, { word: "mi laikim yu", lang: "Tok pisin" }, { word: "u doom shima", lang: "Tiv" }, { word: "የፍቅረኪ እየ", lang: "Tigriña" }, { word: "ང་ཁྱོད་ལ་དགའ་ཡི་འདུག", lang: "Tibetano" }, { word: "Ha'u hadomi o", lang: "Tetún" }, { word: "Ман туро дӯст медорам", lang: "Tayiko" }, { word: "Мен сени севем", lang: "Tártaro de Crimea" }, { word: "Мин сине яратам", lang: "Tártaro" }, { word: "ua here au iā 'oe", lang: "Tahitiano" }, { word: "I rafan ma", lang: "Susu" }, { word: "abdi bogoh ka anjeun", lang: "Sundanés" }, { word: "ngiyakutsandza", lang: "Suazi" }, { word: "ਮੈਂ ਤੁਹਾਨੂੰ ਪਿਆਰ ਕਰਦਾ ਹਾਂ", lang: "Punyabí" }, { word: "Eu amo-te", lang: "Pórtugués(Portugal)" }, { word: "دوستت دارم", lang: "Persa" }, { word: "زه تا سره مینه لرم", lang: "Pastún" }, { word: "Mi stima bo", lang: "Papiamento" }, { word: "Inaro ta ka", lang: "Pangasinán" }, { word: "Kaluguran daka", lang: "Pampanga" }, { word: "Æз дæ уарзын", lang: "Osético" }, { word: "sin jaalladha", lang: "Oromo" }, { word: "ମୁଁ ତୁମକୁ ଭଲ ପାଏ", lang: "Oriya" }, { word: "T'aimi", lang: "" }, { word: "", lang: "Occitano" }, { word: "ndimakukondani", lang: "Nyanja" }, { word: "nakupenda", lang: "Suajili" }, { word: "Ke a go rata", lang: "Sotho septentrional" }, { word: "kea u rata", lang: "Sotho meridional" }, { word: "مان توهان سان پيار ٿو ڪيان", lang: "Sindhi" }, { word: "Au holong bamu", lang: "Simalungun" }, { word: "Przaja ci", lang: "Silesio" }, { word: "ti vogghiu beni", lang: "Siciliano" }, { word: "Ndinokuda", lang: "Shona" }, { word: "ႁဝ်းႁၵ်ႉသူ", lang: "Shan" }, { word: "Iń amiń dulạṛ mea", lang: "Santali(latino)" }, { word: "त्वां कामयामि", lang: "Sánscrito" }, { word: "Mbi ye mo", lang: "Sango" }, { word: "Oute alofa ia oe", lang: "Samoano" }, { word: "ráhkistan du", lang: "Sami septentrional" }, { word: "Мин эйигин таптыыбын", lang: "Sakha" }, { word: "Я тебя люблю", lang: "Ruso" }, { word: "Dukhav tuqe", lang: "Romaní" }, { word: "Kuyaykim", lang: "Quechua" }, { word: "Nakat in ra", lang: "Q'eqchi'" }, { word: "مینوں تہاڈے نال محبت اے", lang: "Punyabí(árabe)" }];
+
+        const recuerdos = [
+            { img: "fotos/foto1.jpg", caption: "Atardecer juntos" },
+            { img: "fotos/foto2.jpg", caption: "Paseo en la playa" },
+            { img: "fotos/foto3.jpg", caption: "Cita con café" },
+            { img: "fotos/foto4.jpg", caption: "Rosas para ti" },
+            { img: "fotos/foto5.jpg", caption: "Bailando juntos" },
+            { img: "fotos/foto6.jpg", caption: "Bajo las estrellas" },
+            { img: "fotos/foto7.jpg", caption: "Beso bajo la lluvia" },
+            { img: "fotos/foto8.jpg", caption: "Nuestra torre" },
+            { img: "fotos/foto9.jpg", caption: "Camino juntos" },
+         /* { img: "fotos/foto.jpg", caption: "En la cima" }, */
+            { img: "fotos/foto11.jpg", caption: "Jardín en flor" },
+            { img: "fotos/foto12.jpg", caption: "Lago en calma" },
+            { img: "fotos/foto13.jpg", caption: "Luces de la ciudad" },
+            { img: "fotos/foto14.jpg", caption: "Cena a la luz" },
+            { img: "fotos/foto15.jpg", caption: "Abrazo en la nieve" },
+            { img: "fotos/foto16.jpg", caption: "Otoño dorado" },
+            { img: "fotos/foto17.jpg", caption: "Cerezos en flor" },
+            { img: "fotos/foto18.jpg", caption: "Desde el puente" },
+            { img: "fotos/foto19.jpg", caption: "Tu brillo" },
+            { img: "fotos/foto20.jpg", caption: "Campo verde" },
+            { img: "fotos/foto21.jpg", caption: "Con nuestra mascota" },
+            { img: "fotos/foto22.jpg", caption: "Leyendo juntos" },
+            { img: "fotos/foto23.jpg", caption: "Paseo en barco" },
+            { img: "fotos/foto24.jpg", caption: "Helado compartido" },
+            { img: "fotos/foto25.jpg", caption: "En bicicleta" },
+            { img: "fotos/foto26.jpg", caption: "Día de feria" },
+            { img: "fotos/foto27.jpg", caption: "Creando arte" },
+            { img: "fotos/foto28.jpg", caption: "Cocinando juntos" },
+        /* { img: "fotos/foto.jpg", caption: "Amanecer en la colina" },*/
+            { img: "fotos/foto30.jpg", caption: "Junto al fuego" },
+            { img: "fotos/foto31.jpg", caption: "Viendo la lluvia" },
+            { img: "fotos/foto32.jpg", caption: "Banco del parque" },
+            { img: "fotos/foto33.jpg", caption: "Pueblo antiguo" },
+            { img: "fotos/foto34.jpg", caption: "Camping juntos" },
+            { img: "fotos/foto35.jpg", caption: "Globo aerostático" },
+            { img: "fotos/foto36.jpg", caption: "Viaje en tren" },
+            { img: "fotos/foto37.jpg", caption: "Selfie en el espejo" },
+            { img: "fotos/foto38.jpg", caption: "En el sofá" },
+            //videos
+            /* { img: "fotos/video 1.mp4", caption: "Nuestro viaje en video", type: "video", ytId: "iSpJgRFZVDM" },*/
+            { img: "fotos/image1.png", caption: "Nuestro video especial", type: "local-video", src: "videos/video1.mp4" },
+            { img: "fotos/image2.png", caption: "TU Y YO", type: "local-video", src: "videos/video2.mp4" },
+            { img: "fotos/image3.png", caption: "Nuestra animacion", type: "local-video", src: "videos/video3.mp4" },
+            { img: "fotos/image4.png", caption: "Con tu hermanito", type: "local-video", src: "videos/video4.mp4" },
+            { img: "fotos/imagen5.png", caption: "Tu graduacion", type: "local-video", src: "videos/video5.mp4" },
+            /* { img: "video 2.mp4", caption: "Bailando juntos", type: "video", ytId: "CTJiKUISx5k" },*/
+            //más fotos
+           /* { img: "fotos/foto32.jpg", caption: "Desayuno en cama" },
+            { img: "fotos/foto33.jpg", caption: "Navidad juntos" },
+            { img: "fotos/foto34.jpg", caption: "Año nuevo" },
+            { img: "fotos/foto35.jpg", caption: "Tu cumpleaños" },
+            { img: "fotos/foto36.jpg", caption: "San Valentín" },
+            { img: "fotos/foto37.jpg", caption: "Halloween" },
+            { img: "fotos/foto38.jpg", caption: "Día en la piscina" },*/
+            { img: "fotos/foto39.jpg", caption: "Concierto" },
+            { img: "fotos/foto40.jpg", caption: "Picnic" },
+            { img: "fotos/foto41.jpg", caption: "Vista desde arriba" },
+            { img: "fotos/foto42.jpg", caption: "Manos unidas" },
+            { img: "fotos/foto43.jpg", caption: "Nuestra silueta" },
+            { img: "fotos/foto44.jpg", caption: "En el desierto" },
+            { img: "fotos/foto45.jpg", caption: "Cascada mágica" },
+            { img: "fotos/foto46.jpg", caption: "Castillo de ensueño" },
+            { img: "fotos/foto47.jpg", caption: "Mercado colorido" },
+            { img: "fotos/foto48.jpg", caption: "Música en la calle" },
+            { img: "fotos/foto49.jpg", caption: "Arcoíris" },
+            { img: "fotos/foto50.jpg", caption: "Olas del mar" },
+            { img: "fotos/foto51.jpg", caption: "Faro y tú" },
+            { img: "fotos/foto52.jpg", caption: "Viñedo romántico" },
+            { img: "fotos/foto53.jpg", caption: "Paseo a caballo" },
+            { img: "fotos/foto54.jpg", caption: "Mirando estrellas" },
+            { img: "fotos/foto55.jpg", caption: "Volando cometa" },
+            { img: "fotos/foto56.jpg", caption: "Horneando juntos" },
+            { img: "fotos/foto57.jpg", caption: "Noche de juegos" },
+            { img: "fotos/foto58.jpg", caption: "Paz interior" },
+            { img: "fotos/foto59.jpg", caption: "Deseo en la fuente" },
+            { img: "fotos/foto60.jpg", caption: "Luz de luna" },
+            { img: "fotos/foto61.jpg", caption: "Viento en tu pelo" },
+            { img: "fotos/foto62.jpg", caption: "Brindis de amor" },
+            { img: "fotos/foto63.jpg", caption: "Campo de flores" },
+            { img: "fotos/foto69.jpg", caption: "Atardecer en el muelle" },
+            { img: "fotos/foto70.jpg", caption: "Primer copo de nieve" },
+            { img: "fotos/foto71.jpg", caption: "Linternas flotantes" },
+            { img: "fotos/foto68.jpg", caption: "Nosotros para siempre" }
+        ];
+
+        const albumPages = [/*Desde el primer momento en que te vi, supe que algo especial estaba por comenzar.*/
+            { photo: "fotos/foto67.jpg", caption: "Nuestro inicio", text: "Bastó un instante contigo para entender que lo nuestro iba a ser inolvidable." },
+            { photo: "fotos/foto10.jpg", caption: "Tu sonrisa", text: "Tu sonrisa ilumina mis días más oscuros." },
+            { photo: "fotos/foto52.jpg", caption: "Nuevas aventuras", text: "Cada paseo contigo es una aventura inolvidable." },
+            { photo: "fotos/foto65.jpg", caption: "Mi refugio", text: "En tus brazos encontré mi lugar favorito." },
+            { photo: "fotos/foto64.jpg", caption: "Para siempre", text: "Este es solo el comienzo. 💕" },
+
+            /* { photo: "fotos/foto66.jpg", caption: "Nuestro lugar", text: "Donde sea que estés, ese es mi hogar." },
+            { photo: "https://picsum.photos/seed/sunsetlove44/600/400.jpg", caption: "Atardeceres juntos", text: "Cada atardecer contigo es una obra de arte." },
+             { photo: "fotos/foto67.jpg", caption: "Tu mirada", text: "Tus ojos guardan todo lo que siempre soñé." },
+             { photo: "https://picsum.photos/seed/ourhands55/600/400.jpg", caption: "De la mano", text: "No importa el camino, mientras vaya contigo." },
+             { photo: "fotos/foto68.jpg", caption: "Mi persona favorita", text: "Eres la persona que siempre quise en mi vida." },
+             { photo: "https://picsum.photos/seed/cozyrain66/600/400.jpg", caption: "Días de lluvia", text: "Contigo, hasta la lluvia tiene magia." },
+             { photo: "fotos/foto69.jpg", caption: "Nuestras risas", text: "Los momentos más simples se vuelven inolvidables contigo." },
+             { photo: "https://picsum.photos/seed/nightstars77/600/400.jpg", caption: "Bajo las estrellas", text: "Cada estrella brilla más cuando estás a mi lado." },
+             { photo: "fotos/foto70.jpg", caption: "Te elegí", text: "Y te seguiré eligiendo todos los días de mi vida. ❤️" }*/
+        ];
+        const things = [
+            { icon: "mdi:heart-pulse", title: "Tu forma de ser", desc: "Eres auténtica." },
+            { icon: "mdi:emoticon-happy-outline", title: "Tu sonrisa", desc: "Ilumina todo." },
+            { icon: "mdi:hand-heart-outline", title: "Tu corazón", desc: "Eres la más bondadosa." },
+            { icon: "mdi:emoticon-lol-outline", title: "Tu sentido del humor", desc: "Me haces reír siempre." },
+            { icon: "mdi:head-heart-outline", title: "Tu inteligencia", desc: "Admiro tu forma de pensar." },
+            { icon: "mdi:arm-flex-outline", title: "Tu fortaleza", desc: "Eres increíblemente fuerte." },
+            { icon: "mdi:star-outline", title: "Tus sueños", desc: "Siempre te apoyaré." },
+            { icon: "mdi:music-note-outline", title: "Tu voz", desc: "Mi melodía favorita." },
+            { icon: "mdi:shield-check", title: "Tu lealtad", desc: "Siempre puedo contar contigo." },
+            { icon: "mdi:spa-outline", title: "Tu delicadeza", desc: "Eres dulce en cada detalle." },
+            { icon: "mdi:fire", title: "Tu pasión", desc: "Te entregas con todo el corazón." },
+            { icon: "mdi:compass-outline", title: "Tu espíritu aventurero", desc: "Contigo todo es una experiencia." },
+            { icon: "mdi:coffee-outline", title: "Tu paciencia", desc: "Sé que no es fácil a veces, pero siempre estás ahí." },
+            { icon: "mdi:palette-outline", title: "Tu creatividad", desc: "Tienes un mundo hermoso dentro de ti." },
+            { icon: "mdi:account-heart-outline", title: "Tus abrazos", desc: "Son el mejor refugio del mundo." },
+            { icon: "mdi:human-female", title: "Tu forma de bailar", desc: "Aunque digas que no sabes, me encanta." },
+            { icon: "mdi:book-open-page-variant-outline", title: "Tu curiosidad", desc: "Me encanta cómo quieres aprenderlo todo." },
+            { icon: "mdi:candle", title: "Tu tranquilidad", desc: "Tu paz se me contagia." },
+            { icon: "mdi:heart-circle-outline", title: "Tu forma de amar", desc: "Me haces sentir lo más especial del mundo." },
+
+            { icon: "mdi:eye-outline", title: "Tu mirada", desc: "Me hipnotiza y me entiende sin hablar." },
+            { icon: "mdi:home-heart", title: "Tu compañía", desc: "A tu lado, cualquier lugar es mi hogar." },
+            { icon: "mdi:gift-outline", title: "Tu generosidad", desc: "Siempre das lo mejor de ti a los demás." },
+            { icon: "mdi:ear-hearing", title: "Tu forma de escucharme", desc: "Siempre haces que me sienta comprendido." },
+            { icon: "mdi:lightbulb-outline", title: "Tus ideas", desc: "Admiro cómo tu mente funciona." },
+            { icon: "mdi:diamond-stone", title: "Tu sinceridad", desc: "Valoro que siempre seas transparente conmigo." },
+            { icon: "mdi:crown-outline", title: "Tu seguridad", desc: "Eres reina de tu propio mundo." },
+            { icon: "mdi:feather", title: "Tu inocencia", desc: "Ese lado tan tierno que tienes me derrite." },
+            { icon: "mdi:shield-account-outline", title: "Tu protección", desc: "Gracias por cuidar siempre de los que amas." },
+            { icon: "mdi:emoticon-excited-outline", title: "Tu risa", desc: "Es, sin duda, mi sonido favorito." },
+            { icon: "mdi:puzzle-outline", title: "Tus detalles", desc: "Te fijas en las cosas que nadie más ve." },
+            { icon: "mdi:silverware-fork-knife", title: "Nuestra complicidad", desc: "Hasta lo más simple es especial contigo." },
+            { icon: "mdi:weather-sunny", title: "Tu optimismo", desc: "Siempre encuentras el lado bueno de todo." },
+            { icon: "mdi:target", title: "Tu determinación", desc: "Cuando te propones algo, nada te detiene." },
+            { icon: "mdi:flower-outline", title: "Tu esencia", desc: "Tu aroma y tu forma de ser se me quedan en el alma." },
+            { icon: "mdi:party-popper", title: "Tus sorpresas", desc: "Siempre tienes algo lindo para hacerme sonreír." },
+            { icon: "mdi:hand-pointing-right", title: "Tus manos", desc: "Son mi lugar seguro cuando las tomo." },
+            { icon: "mdi:microphone", title: "Cómo cantas", desc: "Aunque sea desafinando, es mi concierto favorito." },
+            { icon: "mdi:key-variant", title: "Tu confianza", desc: "Gracias por dejarme entrar en tu mundo." }, // 39 corregido
+            { icon: "mdi:calendar-check", title: "Nuestro tiempo", desc: "Cada segundo contigo es un tesoro." },
+            { icon: "mdi:food-variant", title: "Tu sazón", desc: "Hasta un simple café sabe mejor contigo." },
+            { icon: "mdi:account-star-outline", title: "Tu humildad", desc: "Eres increíble pero nunca te alabas." },
+            { icon: "mdi:butterfly-outline", title: "Tu metamorfosis", desc: "Me encanta verte crecer y brillar cada día." },
+            { icon: "mdi:flash-outline", title: "Tu impacto", desc: "Cambiaste mi vida para siempre." },
+
+            { icon: "mdi:emoticon-kiss-outline", title: "Tus besos", desc: "Son mi adicción favorita." },
+            { icon: "mdi:chat-outline", title: "Nuestras charlas", desc: "Podría hablarte por horas y no cansarme." },
+            { icon: "mdi:diamond-outline", title: "Tu belleza", desc: "Me dejas sin aliento cada vez que te veo." },
+            { icon: "mdi:camera-outline", title: "Tus fotos", desc: "Me encanta verte, incluso en las más vergonzosas." },
+            { icon: "mdi:lightning-bolt", title: "Tu espontaneidad", desc: "Siempre me sorprendes con algo nuevo." },
+            { icon: "mdi:weather-sunset", title: "Tus mañanas", desc: "Despertar y que lo primero que vea seas tú es lo mejor." },
+            { icon: "mdi:heart-multiple-outline", title: "Tu empatía", desc: "Siempre entiendes cómo me siento sin decir una palabra." },
+            { icon: "mdi:account-group-outline", title: "Tus amistades", desc: "Eres la mejor amiga que alguien podría tener." },
+            { icon: "mdi:lightbulb-on", title: "Tus consejos", desc: "Siempre sabes qué decirme cuando lo necesito." },
+            { icon: "mdi:bookmark-outline", title: "Nuestros recuerdos", desc: "Cada momento contigo es un tesoro que guardo." },
+            { icon: "mdi:trending-up", title: "Cómo me mejoras", desc: "Me inspiras a ser una mejor persona cada día." },
+            { icon: "mdi:auto-fix", title: "Tu imaginación", desc: "Ves el mundo de una forma tan única y hermosa." },
+            { icon: "mdi:emoticon-cool-outline", title: "Tu actitud", desc: "Me encanta la seguridad con la que haces las cosas." },
+            { icon: "mdi:cursor-default-click", title: "Tus caricias", desc: "Un solo roce tuyo me eriza la piel." },
+            { icon: "mdi:white-balance-sunny", title: "Tu calidez", desc: "Tu presencia me da paz y me abriga el alma." },
+            { icon: "mdi:walk", title: "Tu caminar", desc: "Tienes una forma de moverte que me hipnotiza." },
+            { icon: "mdi:star-circle", title: "Tus manías", desc: "Esos pequeños detalles que te hacen única me encantan." },
+            { icon: "mdi:lock-open-outline", title: "Tu vulnerabilidad", desc: "Gracias por mostrarme tus miedos y dejarme cuidarte." },
+            { icon: "mdi:trophy-outline", title: "Tu esfuerzo", desc: "Admiro cómo siempre luchas por lo que quieres." },
+            { icon: "mdi:spa-outline", title: "Tu aroma", desc: "Me encanta cómo hueles, me hace sentir en casa." },
+            { icon: "mdi:face-woman", title: "Tu rostro", desc: "Me pierdo contemplándote cada día." },
+            { icon: "mdi:hanger", title: "Tu estilo", desc: "Tienes un gusto increíble para todo." },
+            { icon: "mdi:message-text-outline", title: "Nuestros chistes", desc: "Solo nosotros entendemos nuestras locuras." },
+            { icon: "mdi:sword-cross", title: "Tu valentía", desc: "Admiro cómo siempre enfrentas tus miedos." },
+            { icon: "mdi:lightbulb-on", title: "Cómo me inspiras", desc: "Me motivas a ser mi mejor versión." },
+            { icon: "mdi:cloud-outline", title: "Nuestros silencios", desc: "No hacen falta palabras para entendernos." },
+            { icon: "mdi:emoticon-wink-outline", title: "Tu picardía", desc: "Ese lado travieso que solo yo conozco." },
+            { icon: "mdi:bed-outline", title: "Tu cara de sueño", desc: "Eres la cosa más tierna al despertar." },
+            { icon: "mdi:heart-circle-outline", title: "Tu nobleza", desc: "Tienes un alma pura y sin maldad." }, // 73 corregido
+            { icon: "mdi:heart-box-outline", title: "Cómo me cuidas", desc: "Siempre velas por mi bienestar." },
+            { icon: "mdi:water-outline", title: "Tu transparencia", desc: "Me encanta que eres sincera y clara." },
+            { icon: "mdi:magnet", title: "Tu magnetismo", desc: "Es imposible no sentirme atraído hacia ti." },
+            { icon: "mdi:timer-sand", title: "Cómo me extrañas", desc: "Me hace sentir amado saber que piensas en mí." },
+            { icon: "mdi:medal-outline", title: "Tu talento", desc: "Brillas en todo lo que te propones hacer." },
+            { icon: "mdi:book-open-variant", title: "Nuestra historia", desc: "Mi libro favorito es el que escribimos juntos." },
+            { icon: "mdi:battery-charging-outline", title: "Tu energía", desc: "Me das vida cuando más la necesito." },
+            { icon: "mdi:hand-heart", title: "Tus mimos", desc: "Me encantan cuando me consientes y me cuidas." }, // 81 corregido
+            { icon: "mdi:gesture-tap", title: "Tus manerismos", desc: "Esos pequeños gestos tuyos me tienen fascinado." },
+            { icon: "mdi:heart-circle", title: "Mi lugar favorito", desc: "Dondequiera que estés tú, ahí quiero estar." }, // 83 corregido
+            { icon: "mdi:link-variant", title: "Nuestra conexión", desc: "Nos entendemos en un nivel que no puedo explicar." },
+            { icon: "mdi:heart-multiple", title: "Nuestro amor", desc: "Es lo más hermoso que he experimentado." },
+            // --- NUEVOS HASTA LLEGAR A 100 ---
+            { icon: "mdi:gavel", title: "Tu imperatividad", desc: "Admiro tu firmeza y cómo tomas las riendas." },
+            { icon: "mdi:account-group", title: "Tu preocupación por los demás", desc: "Siempre te importan los que te rodean." },
+            { icon: "mdi:clipboard-check-outline", title: "Tu responsabilidad", desc: "Admiro cómo siempre cumples con tus compromisos." },
+            { icon: "mdi:hand-heart", title: "Tu compasión", desc: "Sientes el dolor ajeno como si fuera tuyo." },  // En lugar de "Tu corazón" que ya estaba
+            { icon: "mdi:eye-check-outline", title: "Tu forma de verme", desc: "Me haces sentir la persona más especial del mundo." },
+            { icon: "mdi:flask-outline", title: "Nuestra química", desc: "Es algo que no se puede explicar, simplemente sucede." },
+            { icon: "mdi:emoticon-devil-outline", title: "Tus locuras", desc: "Me fascina ese lado salvaje y divertido que tienes." },
+            { icon: "mdi:progress-check", title: "Tu perseverancia", desc: "Nunca te rindes ante los obstáculos." },
+            { icon: "mdi:brain", title: "Tu intuición", desc: "Siempre sabes cuándo algo no está bien." },
+            { icon: "mdi:map-outline", title: "Nuestros planes", desc: "Todo lo que proyectamos juntos me emociona." },
+            { icon: "mdi:key", title: "Nuestro secreto", desc: "Tenemos un mundo que solo nosotros dos conocemos." },
+            { icon: "mdi:flashlight", title: "Tu luz", desc: "Iluminas mis días más oscuros." },
+            { icon: "mdi:handshake", title: "Tu apoyo incondicional", desc: "Sé que siempre estarás de mi lado." },
+            { icon: "mdi:leaf", title: "Tu crecimiento", desc: "Me encanta ver la mujer en la que te conviertes." },
+            { icon: "mdi:foot-print", title: "Tu huella", desc: "Has dejado una marca imborrable en mi vida." },
+            { icon: "mdi:wave", title: "Tu frescura", desc: "Tienes algo diferente que me tiene cautivado." },
+            { icon: "mdi:lock-clock", title: "Nuestro futuro", desc: "No veo mi mañana sin ti en ella." },
+            { icon: "mdi:weather-partly-cloudy", title: "Tu apoyo en los malos días", desc: "Hasta la lluvia es bonita si estoy contigo." },
+            { icon: "mdi:emoticon-outline", title: "Tu alegría", desc: "Contagias felicidad a dondequiera que vas." },
+            { icon: "mdi:school-outline", title: "Tu madurez", desc: "Tienes una sabiduría que me deja sin palabras." },
+            { icon: "mdi:account-check-outline", title: "Tu presencia", desc: "Solo con llegar, el ambiente cambia a mejor." },
+            { icon: "mdi:bullseye-arrow", title: "Tu forma de flecharme", desc: "Cada día me enamoras como si fuera el primero." },
+            { icon: "mdi:sprout-outline", title: "Tu gratitud", desc: "Valoras las pequeñas cosas y eso te hace gigante." },
+            { icon: "mdi:road-variant", title: "Nuestro destino", desc: "Estoy seguro de que nacimos para encontrarnos." },
+            { icon: "mdi:infinity", title: "Todo de ti", desc: "Amo todo de ti." }
+
+
+        ];
+        const promises = [{ icon: "mdi:handshake-outline", title: "Siempre a tu lado", desc: "En las buenas y malas." }, { icon: "mdi:emoticon-happy-outline", title: "Te haré reír", desc: "Tu alegría es mi prioridad." }, { icon: "mdi:gift-outline", title: "Te sorprenderé", desc: "Cada día." }, { icon: "mdi:home-heart", title: "Seré tu refugio", desc: "Mis brazos son tu hogar." }, { icon: "mdi:trophy-outline", title: "Celebraré tus logros", desc: "Tus victorias son las mías." }, { icon: "mdi:ear-hearing", title: "Te escucharé", desc: "Con el corazón." }, { icon: "mdi:road-variant", title: "Construiré nuestro futuro", desc: "Juntos." }, { icon: "mdi:heart-check-outline", title: "Te elegiré", desc: "Todos los días." }, { icon: "mdi:shield-check-outline", title: "Cuidaré tu corazón", desc: "Siempre." }, { icon: "mdi:weather-sunny", title: "Te amaré en las tormentas", desc: "Más fuerte." }, { icon: "mdi:lock-heart-outline", title: "Nunca te dejaré sola", desc: "Jamás." }, { icon: "mdi:compass-rose", title: "Seré tu aventura", desc: "Cada día extraordinario." }];
+        const timelineEvents = [
+            { date: "Nos conocimos", icon: "mdi:star-four-points", desc: "El universo nos cruzó.", side: "left" }, 
+            { date: "Primera cita", icon: "mdi:coffee", desc: "Nervios y emoción.", side: "right" }, 
+            { date: "Primer beso", icon: "mdi:heart-flash", desc: "El mundo se detuvo.", side: "left" }, 
+            { date: "Primer viaje", icon: "mdi:airplane", desc: "Todo más hermoso contigo.", side: "right" }, 
+            { date: "Dijiste te amo", icon: "mdi:heart-circle", desc: "Cambió mi vida.", side: "left" }, 
+            { date: "Primer aniversario", icon: "mdi:cake-variant", desc: "El primero de muchos.", side: "right" }, 
+            { date: "Hoy y siempre", icon: "mdi:infinity", desc: "Cada capítulo mejor.", side: "left" }];
+        const songs = [
+            { title: "Perfect", artist: "Ed Sheeran", img: "https://picsum.photos/seed/song1/100/100.jpg", why: "Contigo todo es perfecto.", ytId: "iSpJgRFZVDM" },
+            { title: "Beso", artist: "ROSALÍA", img: "https://picsum.photos/seed/song2/100/100.jpg", why: "Cada beso me deja sin aliento.", ytId: "CTJiKUISx5k" },
+            { title: "Vivir Mi Vida", artist: "Marc Anthony", img: "https://picsum.photos/seed/song3/100/100.jpg", why: "A tu lado vivir al máximo.", ytId: "gHm4yY4N7Ag" },
+            { title: "Tu Canción", artist: "Alvaro Soler", img: "https://picsum.photos/seed/song4/100/100.jpg", why: "Eres mi melodía.", ytId: "i5shFn32Mi0" },
+            { title: "All of Me", artist: "John Legend", img: "https://picsum.photos/seed/song6/100/100.jpg", why: "Todo de mí, sin reservas.", ytId: "450p7goxZqg" },
+            { title: "La Bicicleta", artist: "Vives & Shakira", img: "https://picsum.photos/seed/song7/100/100.jpg", why: "Contigo todo es aventura.", ytId: "7FK1Br6nqOk" },
+            { title: "Shallow", artist: "Lady Gaga & Cooper", img: "https://picsum.photos/seed/song8/100/100.jpg", why: "Contigo salto al vacío.", ytId: "bo_efYhYU2A" },
+            { title: "Dákiti", artist: "Bad Bunny", img: "https://picsum.photos/seed/song5/100/100.jpg", why: "Contigo siempre a tope.", ytId: "TmKh7lAwnBI" }
+        ];
+        const letterText = "Mi amor,\n\nSi la vida se redujera a un solo instante o me pidieran congelar el tiempo, elegiría sin dudarlo quedarme a vivir para siempre en el sonido de tu risa. Tu felicidad no solo ilumina mis días, sino que es mi motor diario y el norte que guía todo lo que hago. Tu paz es la calma en mis días difíciles, el refugio más seguro que he encontrado en este mundo, y tu amor es, por mucho, el regalo más sagrado y hermoso que la vida me ha obsequiado.\n\nA veces, en el silencio de la noche, me descubro mirándote y me invade una gratitud tan grande que no me cabe en el pecho. Me parece increíble que, de todo el universo, estemos hoy aquí, coincidiendo y construyendo algo tan nuestro. Te miro y sé que ninguna estrella brilla con la fuerza y la ternura que transmiten tus ojos.\n\nSigo sin entender qué hice bien para tener la fortuna de tenerte, y sé que jamás tomaré tu presencia por sentado. Prometo cuidar tu corazón como el tesoro más valioso que existe y pasar cada día de mi existencia esforzándome por ser alguien digno de tu amor, intentando hacerte tan feliz como tú me haces a mí.\n\nGracias por elegirme entre tanta gente, gracias por quedarte a abrazar mi historia y, sobre todo, gracias por enseñarme a amar de esta manera tan profunda siendo simplemente tú.\n\nTe amo más de lo que las palabras pueden explicar, con cada latido de mi corazón, hoy y toda la vida. 💕";
+        let currentSection = 'inicio';
+        let recuerdosCreated = false;
+        let globeWordsCreated = false;
+        let currentSongIndex = -1;
+        let isPlaying = false;
+        let progressInterval = null;
+        const allOrbitItems = []; let lastOrbitTime = 0;
+
+        function showSection(id) {
+            if (currentSection === id) return;
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+            currentSection = id;
+             window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Mostrar el menu de navegacion solo cuando NO estamos en Inicio
+            const nav = document.getElementById('main-nav');
+            if (nav) nav.style.display = (id === 'inicio') ? 'none' : 'block';
+            if (id === 'recuerdos' && !recuerdosCreated) { recuerdosCreated = true; setTimeout(() => buildRecuerdosGlobe(), 100); }
+            if (id === 'mundo' && !globeWordsCreated) { globeWordsCreated = true; setTimeout(() => buildGlobeWords(), 100); }
+            if (id === 'cosas') animateThingsCards();
+            if (id === 'promesas') animatePromiseCards();
+            if (id === 'historia') animateTimeline();
+            if (id === 'canciones') animateSongs();
+            if (id === 'album') renderAlbumPage();
+        }
+
+        function openPhotoOverlay(item) {
+            const overlay = document.getElementById('photo-overlay');
+            const overlayImg = document.getElementById('overlay-img');
+            const overlayCaption = document.getElementById('overlay-caption');
+            const videoContainer = document.getElementById('overlay-video-container');
+            const overlayIframe = document.getElementById('overlay-iframe');
+            const localVideo = document.getElementById('overlay-local-video');
+
+            if (typeof item === 'string') { item = { img: item, caption: '' }; }
+
+            // 1. Ocultamos y limpiamos todo por seguridad
+            overlayImg.style.display = 'none';
+            overlayImg.src = '';
+            videoContainer.style.display = 'none';
+            overlayIframe.src = '';
+
+            if (localVideo) {
+                localVideo.style.display = 'none';
+                localVideo.pause();
+                localVideo.src = '';
+            }
+
+            overlayCaption.textContent = item.caption || '';
+
+            // 2. Evaluamos qué tipo de archivo es
+            if (item.type === 'video' && item.ytId) {
+                // Video de YouTube
+                videoContainer.style.display = 'block';
+                overlayIframe.src = "https://www.youtube.com/embed/" + item.ytId + "?autoplay=1";
+            } else if (item.type === 'local-video' && item.src) {
+                // Video local de tu carpeta
+                if (localVideo) {
+                    localVideo.style.display = 'block';
+                    localVideo.src = item.src;
+                    localVideo.load(); // Carga el video
+                    // Intenta reproducir, pero si el navegador lo bloquea, no pasa nada
+                    localVideo.play().catch(() => { });
+                }
+            } else {
+                // Imagen normal
+                overlayImg.style.display = 'block';
+                overlayImg.src = item.img;
+                const bigSrc = item.img.replace('/100/100', '/600/600').replace('/300/300', '/600/600');
+                const hdImg = new Image();
+                hdImg.onload = () => { overlayImg.src = bigSrc; };
+                hdImg.src = bigSrc;
+            }
+
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePhotoOverlay() {
+            const overlay = document.getElementById('photo-overlay');
+            const overlayImg = document.getElementById('overlay-img');
+            const overlayIframe = document.getElementById('overlay-iframe');
+            const localVideo = document.getElementById('overlay-local-video');
+
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+
+            // Limpiar imagen y YouTube
+            if (overlayImg) overlayImg.src = '';
+            if (overlayIframe) overlayIframe.src = '';
+
+            // Matar el video local por completo (El truco definitivo)
+            if (localVideo) {
+                localVideo.pause();
+                localVideo.removeAttribute('src'); // Quita el archivo de raíz
+                localVideo.load(); // Obliga al reproductor a vaciar su memoria
+            }
+        }
+
+        function closePhotoOverlay() {
+            const overlay = document.getElementById('photo-overlay');
+            const overlayImg = document.getElementById('overlay-img');
+            const overlayIframe = document.getElementById('overlay-iframe');
+            const localVideo = document.getElementById('overlay-local-video');
+
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+
+            overlayImg.src = '';
+            if (overlayIframe) overlayIframe.src = '';
+            if (localVideo) { localVideo.pause(); localVideo.src = ''; }
+        }
+
+        function closePhotoOverlay() {
+            const overlay = document.getElementById('photo-overlay');
+            const overlayIframe = document.getElementById('overlay-iframe');
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+            if (overlayIframe) overlayIframe.src = '';
+        }
+
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closePhotoOverlay(); });
+        function createStars() { const c = document.getElementById('stars'); for (let i = 0; i < 90; i++) { const s = document.createElement('div'); s.className = 'star'; s.style.left = Math.random() * 100 + '%'; s.style.top = Math.random() * 100 + '%'; s.style.setProperty('--dur', (2 + Math.random() * 5) + 's'); s.style.setProperty('--del', Math.random() * 4 + 's'); const sz = (1 + Math.random() * 2) + 'px'; s.style.width = sz; s.style.height = sz; c.appendChild(s); } }
+        function spawnHeart() { const h = document.createElement('div'); h.className = 'floating-heart'; h.innerHTML = ['❤', '💕', '💗', '💖', '♥'][Math.floor(Math.random() * 5)]; h.style.left = (5 + Math.random() * 90) + '%'; h.style.bottom = '-20px'; h.style.fontSize = (14 + Math.random() * 18) + 'px'; h.style.animationDuration = (7 + Math.random() * 7) + 's'; document.body.appendChild(h); setTimeout(() => h.remove(), 15000); }
+
+        function buildGlobeWords() {
+            const container = document.getElementById('globe-container'); const W = container.offsetWidth; if (!W) return; const scale = Math.min(W, 620) / 620;
+
+            // ========================================================
+            // 👇 AQUÍ ESTÁN LAS DISTANCIAS DE LAS ÓRBITAS PARA "MUNDO"
+            // Cambia los números de "radius" para alejar o acercar las letras al centro.
+            // Números más grandes = más lejos del centro.
+            // ========================================================
+            const orbits = [
+                { radius: 120, speed: 0.22, dir: 1 },
+                { radius: 165, speed: 0.15, dir: -1 },
+                { radius: 210, speed: 0.10, dir: 1 },
+                { radius: 258, speed: 0.07, dir: -1 },
+                { radius: 305, speed: 0.045, dir: 1 }
+            ];
+            // ========================================================
+
+            orbits.forEach(o => { const ring = document.createElement('div'); ring.className = 'orbit-ring'; const r = o.radius * scale; ring.style.width = (r * 2) + 'px'; ring.style.height = (r * 2) + 'px'; ring.style.marginLeft = (-r) + 'px'; ring.style.marginTop = (-r) + 'px'; container.appendChild(ring); });
+            const perOrbit = Math.ceil(loveWords.length / orbits.length); let idx = 0;
+            orbits.forEach((orbit, oi) => { const count = Math.min(perOrbit, loveWords.length - idx); for (let i = 0; i < count; i++, idx++) { const item = loveWords[idx]; const posDiv = document.createElement('div'); posDiv.className = 'orbit-pos'; const wordEl = document.createElement('div'); wordEl.className = 'love-word'; wordEl.textContent = item.word; const tip = document.createElement('div'); tip.className = 'lang-tip'; tip.textContent = item.lang; posDiv.appendChild(wordEl); posDiv.appendChild(tip); container.appendChild(posDiv); const rp = oi / (orbits.length - 1); wordEl.style.fontSize = (10 + (1 - rp) * 4) * Math.max(scale, 0.55) + 'px'; wordEl.style.color = 'rgba(253,164,175,' + (0.4 + (1 - rp) * 0.45) + ')'; wordEl.style.fontWeight = rp < 0.3 ? '600' : '400'; allOrbitItems.push({ el: posDiv, radius: orbit.radius * scale, speed: orbit.speed * (0.82 + Math.random() * 0.36) * orbit.dir, angle: (i / count) * Math.PI * 2 + oi * 0.9 }); } });
+        }
+
+        function buildRecuerdosGlobe() {
+            const container = document.getElementById('recuerdos-container'); const W = container.offsetWidth; if (!W) return; const scale = Math.min(W, 720) / 720;
+
+            // ========================================================
+            // 👇 AQUÍ ESTÁN LAS DISTANCIAS DE LAS ÓRBITAS PARA "RECUERDOS"
+            // Cambia los números de "radius" para alejar o acercar las fotos al centro.
+            // Números más grandes = más lejos del centro.
+            // ========================================================
+            const orbits = [
+                { radius: 120, speed: 0.22, dir: 1 },
+                { radius: 185, speed: 0.16, dir: -1 },
+                { radius: 245, speed: 0.11, dir: 1 },
+                { radius: 300, speed: 0.08, dir: -1 },
+                { radius: 355, speed: 0.06, dir: 1 },
+                { radius: 405, speed: 0.045, dir: -1 },
+                { radius: 455, speed: 0.03, dir: 1 }
+            ];
+            // ========================================================
+
+            orbits.forEach(o => { const ring = document.createElement('div'); ring.className = 'orbit-ring'; const r = o.radius * scale; ring.style.width = (r * 2) + 'px'; ring.style.height = (r * 2) + 'px'; ring.style.marginLeft = (-r) + 'px'; ring.style.marginTop = (-r) + 'px'; container.appendChild(ring); });
+            const perOrbit = Math.ceil(recuerdos.length / orbits.length); let idx = 0;
+            orbits.forEach((orbit, oi) => {
+                const count = Math.min(perOrbit, recuerdos.length - idx);
+                for (let i = 0; i < count; i++, idx++) {
+                    const item = recuerdos[idx]; const posDiv = document.createElement('div'); posDiv.className = 'orbit-pos';
+                    const imgEl = document.createElement('img'); imgEl.className = 'orbit-img'; imgEl.alt = item.caption; imgEl.loading = 'lazy';
+                    if (idx < 12) { imgEl.src = item.img; } else { setTimeout(() => { imgEl.src = item.img; }, (idx - 12) * 80); }
+                    imgEl.addEventListener('click', function (e) { e.stopPropagation(); openPhotoOverlay(item); });
+                    const tip = document.createElement('div'); tip.className = 'img-tip'; tip.textContent = item.caption;
+                    posDiv.appendChild(imgEl); posDiv.appendChild(tip); container.appendChild(posDiv);
+                    const rp = oi / (orbits.length - 1);
+                    //4465456
+                    const imgSize = Math.max(40, Math.round((50 + (1 - rp) * 20) * Math.max(scale, 0.55)));
+                    imgEl.style.width = imgSize + 'px'; imgEl.style.height = imgSize + 'px';
+                    imgEl.style.opacity = 0.55 + (1 - rp) * 0.4;
+                    imgEl.style.borderColor = 'rgba(244,63,94,' + (0.2 + (1 - rp) * 0.2) + ')';
+                    allOrbitItems.push({ el: posDiv, radius: orbit.radius * scale, speed: orbit.speed * (0.82 + Math.random() * 0.36) * orbit.dir, angle: (i / count) * Math.PI * 2 + oi * 1.1 });
+                }
+            });
+        }
+
+        function animateAllOrbits(now) { const dt = Math.min((now - lastOrbitTime) / 1000, 0.05); lastOrbitTime = now; for (const w of allOrbitItems) { w.angle += w.speed * dt; w.el.style.transform = 'translate(' + Math.cos(w.angle) * w.radius + 'px,' + Math.sin(w.angle) * w.radius + 'px)'; } requestAnimationFrame(animateAllOrbits); }
+
+        let currentPage = 0; function renderAlbumPage() { const content = document.getElementById('book-content'); const page = albumPages[currentPage]; content.style.opacity = '0'; content.style.transform = 'scale(0.97)'; setTimeout(() => { content.innerHTML = `<div class="mb-3 uppercase tracking-[0.2em] text-rose-400/60 font-sans" style="font-size:11px">${page.caption}</div><img src="${page.photo}" alt="${page.caption}" class="album-photo w-full max-w-sm rounded-xl shadow-lg mb-6 border border-rose-200/30 mx-auto" style="aspect-ratio:3/2;object-fit:cover"><p class="text-stone-600 font-serif text-base md:text-lg leading-relaxed italic px-2">"${page.text}"</p><div class="mt-6 flex items-center justify-center gap-2 text-rose-400/30"><div class="w-8 h-px bg-rose-400/25"></div><iconify-icon icon="mdi:heart" width="12"></iconify-icon><div class="w-8 h-px bg-rose-400/25"></div></div>`; content.style.transition = 'all .5s ease-out'; content.style.opacity = '1'; content.style.transform = 'scale(1)'; }, 180); document.getElementById('page-indicator').textContent = (currentPage + 1) + ' / ' + albumPages.length; document.getElementById('prev-btn').style.opacity = currentPage === 0 ? '0.3' : '1'; document.getElementById('next-btn').style.opacity = currentPage === albumPages.length - 1 ? '0.3' : '1'; }
+        function nextPage() { if (currentPage < albumPages.length - 1) { currentPage++; renderAlbumPage(); } } function prevPage() { if (currentPage > 0) { currentPage--; renderAlbumPage(); } }
+
+        // ========================================================
+        // 🎨 DISEÑO DE "10 COSAS" MODIFICADO PARA QUE SE VEA BIEN EN MÓVIL
+        // ========================================================
+        function createThingsCards() {
+            const grid = document.getElementById('things-grid');
+            if (grid.children.length) return;
+            things.forEach((t, i) => {
+                const card = document.createElement('div');
+                card.className = 'thing-card';
+                card.style.transitionDelay = (i * 0.08) + 's';
+                // Diseño Móvil: Vertical, centrado | Diseño PC (sm:): Horizontal, izquierda original
+                card.innerHTML = `
+                    <div class="flex flex-col items-center text-center sm:flex-row sm:items-start sm:text-left gap-3 sm:gap-4">
+                        <div class="flex-shrink-0 w-12 h-12 sm:w-11 sm:h-11 rounded-full flex items-center justify-center mb-1 sm:mb-0" style="background:rgba(244,63,94,0.1)">
+                            <iconify-icon icon="${t.icon}" width="22" class="text-rose-400"></iconify-icon>
+                        </div>
+                        <div class="min-w-0 w-full">
+                            <div class="flex items-center gap-2 mb-1.5 justify-center sm:justify-start">
+                                <span class="text-rose-500 font-bold text-xs font-sans">#${i + 1}</span>
+                                <h3 class="text-white font-semibold text-sm sm:text-[15px] font-sans leading-tight">${t.title}</h3>
+                            </div>
+                            <p class="text-pink-300/55 text-xs sm:text-sm leading-relaxed font-sans">${t.desc}</p>
+                        </div>
+                    </div>`;
+                grid.appendChild(card);
+            });
+        }
+        function animateThingsCards() { document.querySelectorAll('.thing-card').forEach((c, i) => { c.classList.remove('visible'); setTimeout(() => c.classList.add('visible'), i * 90); }); }
+
+        function createPromiseCards() { const grid = document.getElementById('promises-grid'); if (grid.children.length) return; promises.forEach((p, i) => { const card = document.createElement('div'); card.className = 'promise-card'; card.style.transitionDelay = (i * 0.07) + 's'; card.innerHTML = `<div class="corner-heart"><iconify-icon icon="mdi:heart" width="20" class="text-rose-500"></iconify-icon></div><div class="flex items-center gap-4 mb-4"><div class="promise-num">${i + 1}</div><div class="promise-icon" style="animation-delay:${i * 0.3}s"><iconify-icon icon="${p.icon}" width="28" class="text-rose-400"></iconify-icon></div></div><h3 class="text-white font-semibold text-[16px] font-serif mb-2 leading-snug">${p.title}</h3><p class="text-pink-300/50 text-sm leading-relaxed font-sans">${p.desc}</p>`; grid.appendChild(card); }); }
+        function animatePromiseCards() { document.querySelectorAll('.promise-card').forEach((c, i) => { c.classList.remove('visible'); setTimeout(() => c.classList.add('visible'), i * 80); }); }
+        function createTimeline() { const container = document.getElementById('timeline-container'); if (container.children.length) return; const line = document.createElement('div'); line.className = 'timeline-line'; container.appendChild(line); timelineEvents.forEach((evt, i) => { const item = document.createElement('div'); item.className = 'relative mb-10 md:mb-12'; item.innerHTML = `<div class="timeline-dot"></div><div class="timeline-card ${evt.side}" style="transition-delay:${i * 0.1}s"><div class="flex items-center gap-3 mb-3"><div class="w-9 h-9 rounded-full flex items-center justify-center" style="background:rgba(244,63,94,0.15)"><iconify-icon icon="${evt.icon}" width="18" class="text-rose-400"></iconify-icon></div><span class="text-rose-400 font-script text-lg">${evt.date}</span></div><p class="text-pink-200/60 font-serif text-sm md:text-base leading-relaxed italic">${evt.desc}</p></div>`; container.appendChild(item); }); }
+        function animateTimeline() { document.querySelectorAll('.timeline-card').forEach((c, i) => { c.classList.remove('visible'); setTimeout(() => c.classList.add('visible'), i * 120); }); }
+
+        function createSongs() { const container = document.getElementById('songs-container'); if (container.children.length) return; songs.forEach((s, i) => { const card = document.createElement('div'); card.className = 'song-card cursor-pointer'; card.style.transitionDelay = (i * 0.08) + 's'; card.innerHTML = `<img src="${s.img}" alt="${s.title}" class="song-cover"><div class="min-w-0 flex-1"><h4 class="text-white font-semibold text-sm font-sans truncate">${s.title}</h4><p class="text-pink-300/40 text-xs font-sans mb-1">${s.artist}</p><p class="text-pink-300/55 text-xs font-serif italic">${s.why}</p></div><iconify-icon icon="mdi:play-circle" width="36" class="text-rose-500/50 flex-shrink-0 transition-all duration-300 hover:text-rose-500"></iconify-icon>`; card.addEventListener('click', () => playSong(i)); container.appendChild(card); }); }
+        function animateSongs() { document.querySelectorAll('.song-card').forEach((c, i) => { c.classList.remove('visible'); setTimeout(() => c.classList.add('visible'), i * 100); }); }
+        function createLetter() { const container = document.getElementById('letter-content'); if (container.children.length) return; const seal = document.createElement('div'); seal.className = 'flex justify-center mb-8'; seal.innerHTML = '<div class="wax-seal"><iconify-icon icon="mdi:heart" width="24" class="text-rose-200"></iconify-icon></div>'; const textDiv = document.createElement('div'); textDiv.innerHTML = letterText.split('\n\n').map(p => `<p class="text-stone-600 font-serif text-base md:text-lg leading-relaxed mb-4 italic px-2">${p.trim()}</p>`).join(''); const sig = document.createElement('div'); sig.className = 'text-center mt-8'; sig.innerHTML = '<div class="flex items-center justify-center gap-3 mb-3"><div class="w-10 h-px bg-rose-400/25"></div><iconify-icon icon="mdi:heart" width="14" class="text-rose-400/40"></iconify-icon><div class="w-10 h-px bg-rose-400/25"></div></div><p class="font-script text-2xl text-rose-400">Con todo mi amor</p>'; container.appendChild(seal); container.appendChild(textDiv); container.appendChild(sig); }
+
+        // --- FUNCIONES DEL REPRODUCTOR DE MÚSICA ---
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) { isPlaying = false; updatePlayerUI(); clearInterval(progressInterval); document.getElementById('player-progress').style.width = '0%'; }
+            else if (event.data === YT.PlayerState.PLAYING) { isPlaying = true; updatePlayerUI(); startProgressUpdate(); }
+            else if (event.data === YT.PlayerState.PAUSED) { isPlaying = false; updatePlayerUI(); clearInterval(progressInterval); }
+        }
+
+        function playSong(index) {
+            const song = songs[index]; if (!song || !song.ytId) return; currentSongIndex = index;
+            const player = document.getElementById('music-player'); player.classList.remove('hidden-player');
+            document.getElementById('player-img').src = song.img; document.getElementById('player-title').textContent = song.title; document.getElementById('player-artist').textContent = song.artist; document.getElementById('player-progress').style.width = '0%';
+            document.querySelectorAll('.song-card').forEach((c, i) => { if (i === index) { c.style.borderColor = 'rgba(244,63,94,0.5)'; c.style.background = 'rgba(244,63,94,0.12)'; } else { c.style.borderColor = ''; c.style.background = ''; } });
+            const tryPlay = () => { if (ytReady && ytPlayer) { ytPlayer.loadVideoById(song.ytId); isPlaying = true; updatePlayerUI(); } };
+            if (ytReady && ytPlayer) { tryPlay(); } else { const waitYT = setInterval(() => { if (ytReady && ytPlayer) { clearInterval(waitYT); tryPlay(); } }, 300); }
+        }
+
+        function togglePlay() {
+            if (!ytPlayer || !ytReady || currentSongIndex === -1) return;
+            if (isPlaying) { ytPlayer.pauseVideo(); isPlaying = false; } else { ytPlayer.playVideo(); isPlaying = true; }
+            updatePlayerUI();
+        }
+
+        function closePlayer() {
+            if (ytPlayer && ytReady) ytPlayer.stopVideo(); isPlaying = false; currentSongIndex = -1; updatePlayerUI(); clearInterval(progressInterval);
+            document.getElementById('music-player').classList.add('hidden-player'); document.getElementById('player-progress').style.width = '0%';
+            document.querySelectorAll('.song-card').forEach(c => { c.style.borderColor = ''; c.style.background = ''; });
+        }
+
+        function updatePlayerUI() { const icon = document.getElementById('player-icon'); if (icon) { icon.setAttribute('icon', isPlaying ? 'mdi:pause' : 'mdi:play'); } }
+
+        function startProgressUpdate() {
+            clearInterval(progressInterval); progressInterval = setInterval(() => {
+                if (ytPlayer && ytReady && typeof ytPlayer.getCurrentTime === 'function' && typeof ytPlayer.getDuration === 'function') {
+                    const current = ytPlayer.getCurrentTime(); const duration = ytPlayer.getDuration();
+                    if (duration > 0) { document.getElementById('player-progress').style.width = ((current / duration) * 100) + '%'; }
+                }
+            }, 500);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars(); createThingsCards(); createPromiseCards(); createTimeline(); createSongs(); createLetter(); renderAlbumPage();
+            lastOrbitTime = performance.now(); requestAnimationFrame(animateAllOrbits);
+            setInterval(spawnHeart, 2200); for (let i = 0; i < 3; i++)setTimeout(spawnHeart, i * 600);
+            setTimeout(() => { const load = document.getElementById('loading'); load.style.opacity = '0'; setTimeout(() => load.remove(), 1000); }, 2200);
+        });
+    </script>
+</body>
+
+</html>
